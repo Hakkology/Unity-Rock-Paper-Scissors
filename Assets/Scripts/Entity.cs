@@ -6,26 +6,30 @@ using UnityEngine;
 public abstract class Entity : MonoBehaviour, IEntity
 {
     [Header("Movement Settings")]
-    public float speed = 2f;
+    [SerializeField]private float speed = 2f;
+    [SerializeField]private float rotateSpeed = 2f;
+
     public abstract EType Type { get; }
     public abstract EType Prey { get; }
 
-    protected Rigidbody2D rb;
-    SpriteRenderer sr;
-    public void Init()
-    {
-        rb = GetComponent<Rigidbody2D>();
-        sr = GetComponent<SpriteRenderer>();
-    }
-
+    Rigidbody2D rb;
+    public void Init() => rb = GetComponent<Rigidbody2D>();
     void Update()
     {
+        RotateEntity();
         ChasePrey();
+    }
+
+    void RotateEntity()
+    {
+        
+        float randomFactor = Random.Range(0.75f, 1.25f);
+        float zAngle = 10 * speed * randomFactor * Time.deltaTime;
+        gameObject.transform.Rotate(0f, 0f, zAngle);
     }
 
     void ChasePrey()
     {
-        // Arena’daki tüm IEntity’ler içinden enum’a göre filtrele
         var targets = Arena.Instance.AllEntities
             .Where(e => e.Type == Prey)
             .Cast<Entity>()
