@@ -1,27 +1,21 @@
-using System.Collections;
-using System.Collections.Generic;
+// Entity.cs
 using System.Linq;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D), typeof(Collider2D), typeof(SpriteRenderer))]
-public abstract class Entity : MonoBehaviour
+public abstract class Entity : MonoBehaviour, IEntity
 {
     [Header("Movement Settings")]
     public float speed = 2f;
+    public abstract EType Type { get; }
+    public abstract EType Prey { get; }
 
-    // Alt sınıflar override edecek:
-    protected abstract EType Type     { get; }
-    protected abstract EType Prey     { get; }
-    protected abstract EType Predator { get; }
-
-    Rigidbody2D   rb;
+    protected Rigidbody2D rb;
     SpriteRenderer sr;
-
-    void Start()
+    public void Init()
     {
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
-        UpdateColor();
     }
 
     void Update()
@@ -31,8 +25,14 @@ public abstract class Entity : MonoBehaviour
 
     void ChasePrey()
     {
-        var targets = GameObject.FindGameObjectsWithTag(Prey.ToString());
-        if (targets.Length == 0) return;
+        // Arena’daki tüm IEntity’ler içinden enum’a göre filtrele
+        var targets = Arena.Instance.AllEntities
+            .Where(e => e.Type == Prey)
+            .Cast<Entity>()
+            .ToArray();
+
+        if (targets.Length == 0)
+            return;
 
         var nearest = targets
             .OrderBy(t => (t.transform.position - transform.position).sqrMagnitude)
@@ -44,20 +44,33 @@ public abstract class Entity : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag(Prey.ToString()))
+        if (other.TryGetComponent<IEntity>(out var victim) &&
+            victim.Type == Prey)
         {
-            // Factory’ye dönüşüm talebi
-            EntityFactory.Instance.Convert(Type, other.gameObject);
+            Convert(victim, Type);
         }
     }
-
-    void UpdateColor()
+    
+    public void Convert(IEntity victim, EType newType)
     {
-        switch (Type)
+        Arena.Instance.AllEntities.Remove(victim);
+        Destroy(((Entity)victim).gameObject);
+
+        GameObject prefab = newType switch
         {
-            case EType.Rock:     sr.color = Color.gray;    break;
-            case EType.Paper:    sr.color = Color.white;   break;
-            case EType.Scissors: sr.color = Color.magenta; break;
+            EType.Rock     => Arena.Instance.rockPrefab,
+            EType.Paper    => Arena.Instance.paperPrefab,
+            EType.Scissors => Arena.Instance.scissorsPrefab,
+            _ => null
+        };
+
+        if (prefab == null) return;
+
+        var go = Instantiate(prefab, ((Entity)victim).transform.position, Quaternion.identity);
+        if (go.TryGetComponent<IEntity>(out var newIe))
+        {
+            Arena.Instance.AllEntities.Add(newIe);
+            ((Entity)newIe).Init();
         }
     }
 }
