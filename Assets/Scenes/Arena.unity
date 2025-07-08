@@ -351,7 +351,6 @@ GameObject:
   m_Component:
   - component: {fileID: 969353303}
   - component: {fileID: 969353302}
-  - component: {fileID: 969353304}
   m_Layer: 0
   m_Name: Spawner
   m_TagString: Untagged
@@ -372,7 +371,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   countPerType: 20
-  areaSize: 8
 --- !u!4 &969353303
 Transform:
   m_ObjectHideFlags: 0
@@ -388,13 +386,62 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &969353304
+--- !u!1 &1684660970
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1684660972}
+  - component: {fileID: 1684660971}
+  - component: {fileID: 1684660973}
+  m_Layer: 0
+  m_Name: Arena
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1684660971
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1684660970}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26a1927c66dfcccfba1e18b7e3c0921c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rockPrefab: {fileID: 8099627070765575585, guid: 09ed99e7a3f6ac266a08348f82e4c7e1, type: 3}
+  paperPrefab: {fileID: 6373422156369865069, guid: e9688077f7dee5f39b39f961a6f46c3b, type: 3}
+  scissorsPrefab: {fileID: 3290069368711357985, guid: 4810741fa0b06bf2c870159c438bce72, type: 3}
+  arenaBounds: {fileID: 0}
+--- !u!4 &1684660972
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1684660970}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &1684660973
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 969353301}
+  m_GameObject: {fileID: 1684660970}
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
@@ -433,53 +480,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 300, y: 150}
   m_EdgeRadius: 0
---- !u!1 &1684660970
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1684660972}
-  - component: {fileID: 1684660971}
-  m_Layer: 0
-  m_Name: Arena
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1684660971
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1684660970}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 26a1927c66dfcccfba1e18b7e3c0921c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rockPrefab: {fileID: 8099627070765575585, guid: 09ed99e7a3f6ac266a08348f82e4c7e1, type: 3}
-  paperPrefab: {fileID: 6373422156369865069, guid: e9688077f7dee5f39b39f961a6f46c3b, type: 3}
-  scissorsPrefab: {fileID: 3290069368711357985, guid: 4810741fa0b06bf2c870159c438bce72, type: 3}
---- !u!4 &1684660972
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1684660970}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 10.714834, y: 24.757462, z: -0.6926752}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

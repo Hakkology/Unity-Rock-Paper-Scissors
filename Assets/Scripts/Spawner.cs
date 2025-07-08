@@ -6,11 +6,7 @@ public class Spawner : MonoBehaviour
 
     [Header("Spawn Settings")]
     public int countPerType = 20;
-    private BoxCollider2D spawnArea;
 
-    void Awake() {
-        spawnArea = GetComponent<BoxCollider2D>();   
-    }
     void Start()
     {
         SpawnAll();
@@ -28,7 +24,7 @@ public class Spawner : MonoBehaviour
 
     void SpawnMany(GameObject prefab, int count)
     {
-        Bounds bounds = spawnArea.bounds;
+        Bounds bounds = Arena.Instance.Bounds;
         for (int i = 0; i < count; i++)
         {
             float x = Mathf.Round(Random.Range(bounds.min.x, bounds.max.x));

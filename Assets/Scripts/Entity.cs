@@ -6,53 +6,89 @@ using UnityEngine;
 public abstract class Entity : MonoBehaviour, IEntity
 {
     [Header("Movement Settings")]
-    [SerializeField]private float speed = 2f;
-    [SerializeField]private float rotateSpeed = 2f;
+    [SerializeField]private float speed = 4f;
+    [SerializeField]private float rotateSpeed = 4f;
 
     public abstract EType Type { get; }
     public abstract EType Prey { get; }
 
     Rigidbody2D rb;
-    public void Init() => rb = GetComponent<Rigidbody2D>();
+    Vector2 moveDirection;
+    private bool canConvert = true;
+    private float convertCooldown = 0.3f;
+    private float cooldownTimer = 0f;
+
+    public void Init()
+    {
+        rb = GetComponent<Rigidbody2D>();
+        SetRandomDirection();
+    }
+
     void Update()
     {
         RotateEntity();
-        ChasePrey();
+        MoveEntity();
+        //CheckBoundsAndBounce();
+
+
+        if (!canConvert)
+        {
+            cooldownTimer -= Time.deltaTime;
+            if (cooldownTimer <= 0f)
+                canConvert = true;
+        }
     }
 
     void RotateEntity()
     {
         
         float randomFactor = Random.Range(0.75f, 1.25f);
-        float zAngle = 10 * speed * randomFactor * Time.deltaTime;
+        float zAngle = 10 * rotateSpeed * randomFactor * Time.deltaTime;
         gameObject.transform.Rotate(0f, 0f, zAngle);
     }
 
-    void ChasePrey()
+    void MoveEntity()
     {
-        var targets = Arena.Instance.AllEntities
-            .Where(e => e.Type == Prey)
-            .Cast<Entity>()
-            .ToArray();
+        Vector2 proposedNextPos = rb.position + moveDirection * speed * Time.deltaTime;
+        moveDirection = CheckBoundsAndBounce(rb.position, proposedNextPos, moveDirection);
 
-        if (targets.Length == 0)
-            return;
-
-        var nearest = targets
-            .OrderBy(t => (t.transform.position - transform.position).sqrMagnitude)
-            .First();
-
-        Vector2 dir = (nearest.transform.position - transform.position).normalized;
-        rb.MovePosition(rb.position + dir * speed * Time.deltaTime);
+        Vector2 finalNextPos = rb.position + moveDirection * speed * Time.deltaTime;
+        rb.MovePosition(finalNextPos);
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.TryGetComponent<IEntity>(out var victim) &&
-            victim.Type == Prey)
+        if (!canConvert) return;
+
+        if (other.TryGetComponent<IEntity>(out var victim) && victim.Type == Prey)
         {
             Convert(victim, Type);
+            canConvert = false;
+            cooldownTimer = convertCooldown;
         }
+    }
+
+    Vector2 CheckBoundsAndBounce(Vector2 currentPos, Vector2 nextPos, Vector2 dir)
+    {
+        Bounds bounds = Arena.Instance.Bounds;
+        Vector2 center = bounds.center;
+        Vector2 extents = bounds.extents;
+
+        Vector2 newDir = dir;
+
+        if (nextPos.x > center.x + extents.x || nextPos.x < center.x - extents.x)
+            newDir.x *= -1;
+
+        if (nextPos.y > center.y + extents.y || nextPos.y < center.y - extents.y)
+            newDir.y *= -1;
+
+        return newDir.normalized;
+    }
+    
+    void SetRandomDirection()
+    {
+        float angle = Random.Range(0f, 2f * Mathf.PI);
+        moveDirection = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)).normalized;
     }
     
     public void Convert(IEntity victim, EType newType)
@@ -62,8 +98,8 @@ public abstract class Entity : MonoBehaviour, IEntity
 
         GameObject prefab = newType switch
         {
-            EType.Rock     => Arena.Instance.rockPrefab,
-            EType.Paper    => Arena.Instance.paperPrefab,
+            EType.Rock => Arena.Instance.rockPrefab,
+            EType.Paper => Arena.Instance.paperPrefab,
             EType.Scissors => Arena.Instance.scissorsPrefab,
             _ => null
         };

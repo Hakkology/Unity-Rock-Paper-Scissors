@@ -16,9 +16,14 @@ public class Arena : MonoBehaviour
     public IEnumerable<IPaper> Papers => AllEntities.OfType<IPaper>();
     public IEnumerable<IScissor> Scissors => AllEntities.OfType<IScissor>();
 
+    [Header("Area")]
+    [SerializeField] private BoxCollider2D arenaBounds;
+    public Bounds Bounds => arenaBounds.bounds;
+
     void Awake()
     {
-        if (Instance == null)Instance = this;
+        if (Instance == null) Instance = this;
         else Destroy(gameObject);
+        arenaBounds = GetComponent<BoxCollider2D>();   
     }
 }
