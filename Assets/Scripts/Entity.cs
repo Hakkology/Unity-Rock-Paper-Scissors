@@ -16,7 +16,7 @@ public abstract class Entity : MonoBehaviour, IEntity
     Rigidbody2D rb;
     Vector2 moveDirection;
     private bool canConvert = true;
-    private float convertCooldown = 0.3f;
+    private float convertCooldown = 0.53f;
     private float cooldownTimer = 0f;
 
     public void Init()
