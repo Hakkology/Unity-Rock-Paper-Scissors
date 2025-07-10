@@ -70,7 +70,7 @@ public abstract class Entity : MonoBehaviour, IEntity
 
     Vector2 CheckBoundsAndBounce(Vector2 currentPos, Vector2 nextPos, Vector2 dir)
     {
-        Bounds bounds = Arena.Instance.Bounds;
+        Bounds bounds = Arena.Instance.MainArenaBounds;
         Vector2 center = bounds.center;
         Vector2 extents = bounds.extents;
 

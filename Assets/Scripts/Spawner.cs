@@ -5,7 +5,7 @@ public class Spawner : MonoBehaviour
 {
 
     [Header("Spawn Settings")]
-    public int countPerType = 20;
+    public int countPerType = 2;
 
     void Start()
     {
@@ -24,7 +24,7 @@ public class Spawner : MonoBehaviour
 
     void SpawnMany(GameObject prefab, int count)
     {
-        Bounds bounds = Arena.Instance.Bounds;
+        Bounds bounds = Arena.Instance.MainArenaBounds;
         for (int i = 0; i < count; i++)
         {
             float x = Mathf.Round(Random.Range(bounds.min.x, bounds.max.x));
