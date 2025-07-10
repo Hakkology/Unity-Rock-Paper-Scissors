@@ -1,3 +1,4 @@
+using System.Linq;
 using TMPro;
 using UnityEngine;
 
@@ -30,4 +31,15 @@ public class Hud : MonoBehaviour
     public void UpdateRightPaperText(string message) => rightPaperText.text = message;
     public void UpdateLeftScissorText(string message) => leftScissorText.text = message;
     public void UpdateRightScissorText(string message) => rightScissorText.text = message;
+
+    public void UpdateEntityCounters()
+    {
+        UpdateLeftRockText(Arena.Instance.LeftRocks.Count().ToString());
+        UpdateLeftPaperText(Arena.Instance.LeftPapers.Count().ToString());
+        UpdateLeftScissorText(Arena.Instance.LeftScissors.Count().ToString());
+
+        UpdateRightRockText(Arena.Instance.RightRocks.Count().ToString());
+        UpdateRightPaperText(Arena.Instance.RightPapers.Count().ToString());
+        UpdateRightScissorText(Arena.Instance.RightScissors.Count().ToString());
+    }
 }

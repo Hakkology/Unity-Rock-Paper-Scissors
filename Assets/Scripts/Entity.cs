@@ -6,8 +6,8 @@ using UnityEngine;
 public abstract class Entity : MonoBehaviour, IEntity
 {
     [Header("Movement Settings")]
-    [SerializeField]private float speed = 4f;
-    [SerializeField]private float rotateSpeed = 4f;
+    [SerializeField] private float speed = 4f;
+    [SerializeField] private float rotateSpeed = 4f;
 
     public ArenaSide Side { get; set; }
     public abstract EType Type { get; }
@@ -44,7 +44,7 @@ public abstract class Entity : MonoBehaviour, IEntity
 
     void RotateEntity()
     {
-        
+
         float randomFactor = Random.Range(0.75f, 1.25f);
         float zAngle = 10 * rotateSpeed * randomFactor * Time.deltaTime;
         gameObject.transform.Rotate(0f, 0f, zAngle);
@@ -58,7 +58,7 @@ public abstract class Entity : MonoBehaviour, IEntity
         if (bouncedDir != moveDirection)
         {
             moveDirection = bouncedDir;
-            rb.velocity = moveDirection * speed; 
+            rb.velocity = moveDirection * speed;
         }
     }
 
@@ -91,7 +91,7 @@ public abstract class Entity : MonoBehaviour, IEntity
         return newDir.normalized;
     }
 
-    
+
     void SetRandomDirection()
     {
         float angle = Random.Range(0f, 2f * Mathf.PI);
@@ -100,9 +100,7 @@ public abstract class Entity : MonoBehaviour, IEntity
 
     public void Convert(IEntity victim, EType newType)
     {
-        var victimSide = victim.Side; 
-
-        Arena.Instance.AllEntities.Remove(victim);
+        var victimSide = victim.Side;
 
         GameObject prefab = newType switch
         {
@@ -117,11 +115,20 @@ public abstract class Entity : MonoBehaviour, IEntity
         var go = Instantiate(prefab, ((Entity)victim).transform.position, Quaternion.identity);
         if (go.TryGetComponent<IEntity>(out var newIe))
         {
-            newIe.Side = victimSide; 
+            newIe.Side = victimSide;
             ((Entity)newIe).Init();
-            Arena.Instance.AllEntities.Add(newIe); 
+            Arena.Instance.AllEntities.Add(newIe);
         }
 
         Destroy(((Entity)victim).gameObject); 
+
+        Arena.Instance.CheckAndDisableSideColliders();
+        Hud.Instance.UpdateEntityCounters();
+    }
+
+    
+    protected virtual void OnDestroy()
+    {
+        Arena.Instance.AllEntities.Remove(this);
     }
 }

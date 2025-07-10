@@ -41,11 +41,6 @@ public class Arena : MonoBehaviour
         CalculateSpawnPoints();
     }
 
-    void Update()
-    {
-        CheckAndDisableSideColliders();
-    }
-
     void CalculateSpawnPoints()
     {
         LeftSpawnPoints = GenerateEquilateralTrianglePoints(LeftArenaBounds, 3);
@@ -61,7 +56,7 @@ public class Arena : MonoBehaviour
             if (LeftPapers.Any()) leftTypeCount++;
             if (LeftScissors.Any()) leftTypeCount++;
 
-            if (leftTypeCount == 2)
+            if (leftTypeCount == 1)
                 DisableLeftArena();
         }
 
@@ -72,7 +67,7 @@ public class Arena : MonoBehaviour
             if (RightPapers.Any()) rightTypeCount++;
             if (RightScissors.Any()) rightTypeCount++;
 
-            if (rightTypeCount == 2)
+            if (rightTypeCount == 1)
                 DisableRightArena();
         }
     }
@@ -148,8 +143,7 @@ public class Arena : MonoBehaviour
     {
         if (leftArena != null)
         {
-            leftArena.gameObject.SetActive(false);
-            //leftArena = null;
+            leftArena.enabled = false;
         }
     }
 
@@ -157,8 +151,7 @@ public class Arena : MonoBehaviour
     {
         if (rightArena != null)
         {
-            rightArena.gameObject.SetActive(false);
-            //rightArena = null;
+            rightArena.enabled = false;
         }
     }
 }

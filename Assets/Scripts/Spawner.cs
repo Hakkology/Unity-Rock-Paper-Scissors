@@ -50,8 +50,9 @@ public class Spawner : MonoBehaviour
         if (go.TryGetComponent<IEntity>(out var entity))
         {
             entity.Side = side;
-            Arena.Instance.AllEntities.Add(entity); 
-            entity.Init();                         
+            Arena.Instance.AllEntities.Add(entity);
+            entity.Init();
+            Hud.Instance.UpdateEntityCounters();                         
         }
     }
 }
