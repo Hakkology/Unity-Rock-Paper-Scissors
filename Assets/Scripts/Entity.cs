@@ -9,6 +9,7 @@ public abstract class Entity : MonoBehaviour, IEntity
     [SerializeField]private float speed = 4f;
     [SerializeField]private float rotateSpeed = 4f;
 
+    public ArenaSide Side { get; set; }
     public abstract EType Type { get; }
     public abstract EType Prey { get; }
 
@@ -22,6 +23,8 @@ public abstract class Entity : MonoBehaviour, IEntity
     {
         rb = GetComponent<Rigidbody2D>();
         SetRandomDirection();
+        // Debug.Log($"{Side} side is");
+        rb.velocity = moveDirection * speed;
     }
 
     void Update()
@@ -50,10 +53,13 @@ public abstract class Entity : MonoBehaviour, IEntity
     void MoveEntity()
     {
         Vector2 proposedNextPos = rb.position + moveDirection * speed * Time.deltaTime;
-        moveDirection = CheckBoundsAndBounce(rb.position, proposedNextPos, moveDirection);
 
-        Vector2 finalNextPos = rb.position + moveDirection * speed * Time.deltaTime;
-        rb.MovePosition(finalNextPos);
+        Vector2 bouncedDir = CheckBoundsAndBounce(proposedNextPos, moveDirection);
+        if (bouncedDir != moveDirection)
+        {
+            moveDirection = bouncedDir;
+            rb.velocity = moveDirection * speed; 
+        }
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -68,12 +74,12 @@ public abstract class Entity : MonoBehaviour, IEntity
         }
     }
 
-    Vector2 CheckBoundsAndBounce(Vector2 currentPos, Vector2 nextPos, Vector2 dir)
+    Vector2 CheckBoundsAndBounce(Vector2 nextPos, Vector2 dir)
     {
-        Bounds bounds = Arena.Instance.MainArenaBounds;
+        Bounds bounds = Arena.Instance.GetEffectiveBounds(Side);
+
         Vector2 center = bounds.center;
         Vector2 extents = bounds.extents;
-
         Vector2 newDir = dir;
 
         if (nextPos.x > center.x + extents.x || nextPos.x < center.x - extents.x)
@@ -84,17 +90,19 @@ public abstract class Entity : MonoBehaviour, IEntity
 
         return newDir.normalized;
     }
+
     
     void SetRandomDirection()
     {
         float angle = Random.Range(0f, 2f * Mathf.PI);
         moveDirection = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)).normalized;
     }
-    
+
     public void Convert(IEntity victim, EType newType)
     {
+        var victimSide = victim.Side; 
+
         Arena.Instance.AllEntities.Remove(victim);
-        Destroy(((Entity)victim).gameObject);
 
         GameObject prefab = newType switch
         {
@@ -109,8 +117,11 @@ public abstract class Entity : MonoBehaviour, IEntity
         var go = Instantiate(prefab, ((Entity)victim).transform.position, Quaternion.identity);
         if (go.TryGetComponent<IEntity>(out var newIe))
         {
-            Arena.Instance.AllEntities.Add(newIe);
+            newIe.Side = victimSide; 
             ((Entity)newIe).Init();
+            Arena.Instance.AllEntities.Add(newIe); 
         }
+
+        Destroy(((Entity)victim).gameObject); 
     }
 }

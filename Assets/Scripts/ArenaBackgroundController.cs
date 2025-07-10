@@ -8,21 +8,21 @@ public class ArenaBackgroundController : MonoBehaviour
 
     void Update()
     {
-        if (!backgroundMaterial || !Arena.Instance) return;
+        // if (!backgroundMaterial || !Arena.Instance) return;
 
-        float total = Arena.Instance.AllEntities.Count;
-        if (total == 0) total = 1; // avoid divide by zero
+        // float total = Arena.Instance.AllEntities.Count;
+        // if (total == 0) total = 1; // avoid divide by zero
 
-        float rocks = Arena.Instance.Rocks.Count();
-        float papers = Arena.Instance.Papers.Count();
-        float scissors = Arena.Instance.Scissors.Count();
+        // float rocks = Arena.Instance.Rocks.Count();
+        // float papers = Arena.Instance.Papers.Count();
+        // float scissors = Arena.Instance.Scissors.Count();
 
-        float rockRatio = rocks / total;
-        float paperRatio = papers / total;
-        float scissorRatio = scissors / total;
+        // float rockRatio = rocks / total;
+        // float paperRatio = papers / total;
+        // float scissorRatio = scissors / total;
 
-        backgroundMaterial.SetFloat("_RockRatio", rockRatio);
-        backgroundMaterial.SetFloat("_PaperRatio", paperRatio);
-        backgroundMaterial.SetFloat("_ScissorsRatio", scissorRatio);
+        // backgroundMaterial.SetFloat("_RockRatio", rockRatio);
+        // backgroundMaterial.SetFloat("_PaperRatio", paperRatio);
+        // backgroundMaterial.SetFloat("_ScissorsRatio", scissorRatio);
     }
 }

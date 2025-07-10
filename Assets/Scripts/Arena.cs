@@ -12,9 +12,13 @@ public class Arena : MonoBehaviour
     public GameObject scissorsPrefab;
 
     public List<IEntity> AllEntities { get; } = new List<IEntity>();
-    public IEnumerable<IRock> Rocks => AllEntities.OfType<IRock>();
-    public IEnumerable<IPaper> Papers => AllEntities.OfType<IPaper>();
-    public IEnumerable<IScissor> Scissors => AllEntities.OfType<IScissor>();
+    public IEnumerable<IRock> LeftRocks => AllEntities.Where(e => e.Side == ArenaSide.Left).OfType<IRock>();
+    public IEnumerable<IPaper> LeftPapers => AllEntities.Where(e => e.Side == ArenaSide.Left).OfType<IPaper>();
+    public IEnumerable<IScissor> LeftScissors => AllEntities.Where(e => e.Side == ArenaSide.Left).OfType<IScissor>();
+    public IEnumerable<IRock> RightRocks => AllEntities.Where(e => e.Side == ArenaSide.Right).OfType<IRock>();
+    public IEnumerable<IPaper> RightPapers => AllEntities.Where(e => e.Side == ArenaSide.Right).OfType<IPaper>();
+    public IEnumerable<IScissor> RightScissors => AllEntities.Where(e => e.Side == ArenaSide.Right).OfType<IScissor>();
+
 
     [Header("Area")]
     [SerializeField] private BoxCollider2D mainArena;
@@ -23,8 +27,8 @@ public class Arena : MonoBehaviour
     public Bounds MainArenaBounds => mainArena.bounds;
     public Bounds LeftArenaBounds => leftArena.bounds;
     public Bounds RightArenaBounds => rightArena.bounds;
-
-
+    public bool IsLeftArenaActive => leftArena.enabled;
+    public bool IsRightArenaActive => rightArena.enabled;
     public Vector2[] LeftSpawnPoints { get; private set; }
     public Vector2[] RightSpawnPoints { get; private set; }
 
@@ -37,10 +41,40 @@ public class Arena : MonoBehaviour
         CalculateSpawnPoints();
     }
 
+    void Update()
+    {
+        CheckAndDisableSideColliders();
+    }
+
     void CalculateSpawnPoints()
     {
         LeftSpawnPoints = GenerateEquilateralTrianglePoints(LeftArenaBounds, 3);
         RightSpawnPoints = GenerateEquilateralTrianglePoints(RightArenaBounds, 3);
+    }
+
+    public void CheckAndDisableSideColliders()
+    {
+        if (IsLeftArenaActive)
+        {
+            int leftTypeCount = 0;
+            if (LeftRocks.Any()) leftTypeCount++;
+            if (LeftPapers.Any()) leftTypeCount++;
+            if (LeftScissors.Any()) leftTypeCount++;
+
+            if (leftTypeCount == 2)
+                DisableLeftArena();
+        }
+
+        if (IsRightArenaActive)
+        {
+            int rightTypeCount = 0;
+            if (RightRocks.Any()) rightTypeCount++;
+            if (RightPapers.Any()) rightTypeCount++;
+            if (RightScissors.Any()) rightTypeCount++;
+
+            if (rightTypeCount == 2)
+                DisableRightArena();
+        }
     }
 
     void CreateViewportBasedColliders()
@@ -51,15 +85,15 @@ public class Arena : MonoBehaviour
         float cameraDistanceFromPlane = Mathf.Abs(cam.transform.position.z);
 
         Vector3 mainBottomLeft = cam.ViewportToWorldPoint(new Vector3(0.04f, 0.04f, cameraDistanceFromPlane));
-        Vector3 mainTopRight   = cam.ViewportToWorldPoint(new Vector3(0.96f, 0.813333f, cameraDistanceFromPlane));
+        Vector3 mainTopRight = cam.ViewportToWorldPoint(new Vector3(0.96f, 0.813333f, cameraDistanceFromPlane));
         CreateColliderZone(ref mainArena, "MainArenaZone", mainBottomLeft, mainTopRight);
 
         Vector3 leftBottomLeft = cam.ViewportToWorldPoint(new Vector3(0.04f, 0.04f, cameraDistanceFromPlane));
-        Vector3 leftTopRight   = cam.ViewportToWorldPoint(new Vector3(0.44f, 0.813333f, cameraDistanceFromPlane));
+        Vector3 leftTopRight = cam.ViewportToWorldPoint(new Vector3(0.44f, 0.813333f, cameraDistanceFromPlane));
         CreateColliderZone(ref leftArena, "LeftArenaZone", leftBottomLeft, leftTopRight);
 
         Vector3 rightBottomLeft = cam.ViewportToWorldPoint(new Vector3(0.52f, 0.04f, cameraDistanceFromPlane));
-        Vector3 rightTopRight   = cam.ViewportToWorldPoint(new Vector3(0.96f, 0.813333f, cameraDistanceFromPlane));
+        Vector3 rightTopRight = cam.ViewportToWorldPoint(new Vector3(0.96f, 0.813333f, cameraDistanceFromPlane));
         CreateColliderZone(ref rightArena, "RightArenaZone", rightBottomLeft, rightTopRight);
     }
 
@@ -100,17 +134,31 @@ public class Arena : MonoBehaviour
 
         return points;
     }
-    
-    void OnDrawGizmos()
-    {
-        Gizmos.color = Color.cyan;
-        if (LeftSpawnPoints != null)
-            foreach (var p in LeftSpawnPoints)
-                Gizmos.DrawSphere(p, 0.2f);
 
-        Gizmos.color = Color.yellow;
-        if (RightSpawnPoints != null)
-            foreach (var p in RightSpawnPoints)
-                Gizmos.DrawSphere(p, 0.2f);
+    public Bounds GetEffectiveBounds(ArenaSide side)
+    {
+        if (side == ArenaSide.Left)
+            return IsLeftArenaActive ? LeftArenaBounds : MainArenaBounds;
+        if (side == ArenaSide.Right)
+            return IsRightArenaActive ? RightArenaBounds : MainArenaBounds;
+        return MainArenaBounds;
+    }
+
+    public void DisableLeftArena()
+    {
+        if (leftArena != null)
+        {
+            leftArena.gameObject.SetActive(false);
+            //leftArena = null;
+        }
+    }
+
+    public void DisableRightArena()
+    {
+        if (rightArena != null)
+        {
+            rightArena.gameObject.SetActive(false);
+            //rightArena = null;
+        }
     }
 }
