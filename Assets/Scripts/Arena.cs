@@ -19,6 +19,8 @@ public class Arena : MonoBehaviour
     public IEnumerable<IRock> RightRocks => AllEntities.Where(e => e.Side == EArenaSide.Right).OfType<IRock>();
     public IEnumerable<IPaper> RightPapers => AllEntities.Where(e => e.Side == EArenaSide.Right).OfType<IPaper>();
     public IEnumerable<IScissor> RightScissors => AllEntities.Where(e => e.Side == EArenaSide.Right).OfType<IScissor>();
+    public IEnumerable<IEntity> LeftEntities => AllEntities.Where(e => e.Side == EArenaSide.Left);
+    public IEnumerable<IEntity> RightEntities => AllEntities.Where(e => e.Side == EArenaSide.Right);
 
 
     [Header("Area")]

@@ -219,6 +219,8 @@ MonoBehaviour:
   rightPaperText: {fileID: 1226334706}
   leftScissorText: {fileID: 1565683722}
   rightScissorText: {fileID: 203474894}
+  leftTotalText: {fileID: 0}
+  rightTotalText: {fileID: 0}
 --- !u!114 &33855272
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1580,6 +1582,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3500773898859674137, guid: 25307264295deaf1e8f77069ad50ee91, type: 3}
+      propertyPath: m_Name
+      value: RightTotalText
+      objectReference: {fileID: 0}
     - target: {fileID: 4199375168918208102, guid: 25307264295deaf1e8f77069ad50ee91, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -1604,9 +1610,13 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4393484260940204072, guid: 25307264295deaf1e8f77069ad50ee91, type: 3}
+      propertyPath: m_Name
+      value: RightTotalImage
+      objectReference: {fileID: 0}
     - target: {fileID: 6274712975760240793, guid: 25307264295deaf1e8f77069ad50ee91, type: 3}
       propertyPath: m_Name
-      value: CountHud (1)
+      value: RightTotal
       objectReference: {fileID: 0}
     - target: {fileID: 6855863571161238463, guid: 25307264295deaf1e8f77069ad50ee91, type: 3}
       propertyPath: m_Pivot.x
@@ -2598,6 +2608,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3500773898859674137, guid: 25307264295deaf1e8f77069ad50ee91, type: 3}
+      propertyPath: m_Name
+      value: LeftTotalText
+      objectReference: {fileID: 0}
     - target: {fileID: 4199375168918208102, guid: 25307264295deaf1e8f77069ad50ee91, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -2622,9 +2636,13 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4393484260940204072, guid: 25307264295deaf1e8f77069ad50ee91, type: 3}
+      propertyPath: m_Name
+      value: LeftTotalImage
+      objectReference: {fileID: 0}
     - target: {fileID: 6274712975760240793, guid: 25307264295deaf1e8f77069ad50ee91, type: 3}
       propertyPath: m_Name
-      value: CountHud
+      value: LeftTotal
       objectReference: {fileID: 0}
     - target: {fileID: 6855863571161238463, guid: 25307264295deaf1e8f77069ad50ee91, type: 3}
       propertyPath: m_Pivot.x

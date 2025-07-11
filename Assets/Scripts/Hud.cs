@@ -18,6 +18,10 @@ public class Hud : MonoBehaviour
     private TextMeshProUGUI leftScissorText;
     [SerializeField]
     private TextMeshProUGUI rightScissorText;
+    [SerializeField]
+    private TextMeshProUGUI leftTotalText;
+    [SerializeField]
+    private TextMeshProUGUI rightTotalText;
 
     void Awake()
     {
@@ -31,6 +35,8 @@ public class Hud : MonoBehaviour
     public void UpdateRightPaperText(string message) => rightPaperText.text = message;
     public void UpdateLeftScissorText(string message) => leftScissorText.text = message;
     public void UpdateRightScissorText(string message) => rightScissorText.text = message;
+    public void UpdateLeftTotalText(string message) => leftTotalText.text = message;
+    public void UpdateRightTotalText(string message) => rightTotalText.text = message;
 
     public void UpdateEntityCounters()
     {
@@ -41,5 +47,8 @@ public class Hud : MonoBehaviour
         UpdateRightRockText(Arena.Instance.RightRocks.Count().ToString());
         UpdateRightPaperText(Arena.Instance.RightPapers.Count().ToString());
         UpdateRightScissorText(Arena.Instance.RightScissors.Count().ToString());
+
+        UpdateLeftTotalText(Arena.Instance.LeftEntities.Count().ToString());
+        UpdateRightTotalText(Arena.Instance.RightEntities.Count().ToString());
     }
 }
