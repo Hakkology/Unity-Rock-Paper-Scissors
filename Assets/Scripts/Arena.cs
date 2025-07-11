@@ -13,12 +13,12 @@ public class Arena : MonoBehaviour
     public GameObject scissorsPrefab;
 
     public List<IEntity> AllEntities { get; } = new List<IEntity>();
-    public IEnumerable<IRock> LeftRocks => AllEntities.Where(e => e.Side == ArenaSide.Left).OfType<IRock>();
-    public IEnumerable<IPaper> LeftPapers => AllEntities.Where(e => e.Side == ArenaSide.Left).OfType<IPaper>();
-    public IEnumerable<IScissor> LeftScissors => AllEntities.Where(e => e.Side == ArenaSide.Left).OfType<IScissor>();
-    public IEnumerable<IRock> RightRocks => AllEntities.Where(e => e.Side == ArenaSide.Right).OfType<IRock>();
-    public IEnumerable<IPaper> RightPapers => AllEntities.Where(e => e.Side == ArenaSide.Right).OfType<IPaper>();
-    public IEnumerable<IScissor> RightScissors => AllEntities.Where(e => e.Side == ArenaSide.Right).OfType<IScissor>();
+    public IEnumerable<IRock> LeftRocks => AllEntities.Where(e => e.Side == EArenaSide.Left).OfType<IRock>();
+    public IEnumerable<IPaper> LeftPapers => AllEntities.Where(e => e.Side == EArenaSide.Left).OfType<IPaper>();
+    public IEnumerable<IScissor> LeftScissors => AllEntities.Where(e => e.Side == EArenaSide.Left).OfType<IScissor>();
+    public IEnumerable<IRock> RightRocks => AllEntities.Where(e => e.Side == EArenaSide.Right).OfType<IRock>();
+    public IEnumerable<IPaper> RightPapers => AllEntities.Where(e => e.Side == EArenaSide.Right).OfType<IPaper>();
+    public IEnumerable<IScissor> RightScissors => AllEntities.Where(e => e.Side == EArenaSide.Right).OfType<IScissor>();
 
 
     [Header("Area")]
@@ -33,7 +33,7 @@ public class Arena : MonoBehaviour
     public Vector2[] LeftSpawnPoints { get; private set; }
     public Vector2[] RightSpawnPoints { get; private set; }
 
-    private readonly Queue<(IEntity victim, EType newType)> convertQueue = new();
+    private readonly Queue<(IEntity victim, EType newType, EArenaSide newSide)> convertQueue = new();
     private bool isConverting = false;
 
     void Awake()
@@ -51,15 +51,15 @@ public class Arena : MonoBehaviour
             StartCoroutine(ProcessConvertQueue());
     }
 
-    public void EnqueueConvert(IEntity victim, EType newType)
-    {
-        convertQueue.Enqueue((victim, newType));
-    }
-
     void CalculateSpawnPoints()
     {
         LeftSpawnPoints = GenerateEquilateralTrianglePoints(LeftArenaBounds, 3);
         RightSpawnPoints = GenerateEquilateralTrianglePoints(RightArenaBounds, 3);
+    }
+
+    public void EnqueueConvert(IEntity victim, EType newType, EArenaSide newSide)
+    {
+        convertQueue.Enqueue((victim, newType, newSide));
     }
 
     private IEnumerator ProcessConvertQueue()
@@ -68,11 +68,11 @@ public class Arena : MonoBehaviour
 
         while (convertQueue.Count > 0)
         {
-            var (victim, newType) = convertQueue.Dequeue();
+            var (victim, newType, newSide) = convertQueue.Dequeue();
 
             if (victim is Entity victimEntity && victimEntity != null && victimEntity.gameObject != null)
             {
-                DoConvert(victim, newType);
+                DoConvert(victim, newType, newSide);
             }
 
             yield return null;
@@ -81,7 +81,7 @@ public class Arena : MonoBehaviour
         isConverting = false;
     }
 
-    private void DoConvert(IEntity victim, EType newType)
+    private void DoConvert(IEntity victim, EType newType, EArenaSide newSide)
     {
         if (victim is not Entity victimEntity || victimEntity == null || victimEntity.gameObject == null)
             return;
@@ -104,7 +104,7 @@ public class Arena : MonoBehaviour
         var go = Instantiate(prefab, victimEntity.transform.position, Quaternion.identity);
         if (go.TryGetComponent<IEntity>(out var newIe))
         {
-            newIe.Side = victimSide;
+            newIe.Side = (victimSide != newSide) ? newSide : victimSide;
             ((Entity)newIe).Init();
             AllEntities.Add(newIe);
         }
@@ -198,11 +198,11 @@ public class Arena : MonoBehaviour
         return points;
     }
 
-    public Bounds GetEffectiveBounds(ArenaSide side)
+    public Bounds GetEffectiveBounds(EArenaSide side)
     {
-        if (side == ArenaSide.Left)
+        if (side == EArenaSide.Left)
             return IsLeftArenaActive ? LeftArenaBounds : MainArenaBounds;
-        if (side == ArenaSide.Right)
+        if (side == EArenaSide.Right)
             return IsRightArenaActive ? RightArenaBounds : MainArenaBounds;
         return MainArenaBounds;
     }

@@ -9,7 +9,7 @@ public abstract class Entity : MonoBehaviour, IEntity
     [SerializeField] private float speed = 4f;
     [SerializeField] private float rotateSpeed = 4f;
 
-    public ArenaSide Side { get; set; }
+    public EArenaSide Side { get; set; }
     public abstract EType Type { get; }
     public abstract EType Prey { get; }
     public bool isPendingConvert = false;
@@ -72,7 +72,7 @@ public abstract class Entity : MonoBehaviour, IEntity
 
         //if (victim.Side == this.Side) return;
 
-        Convert(victim, Type);
+        Convert(victim, Type, Side);
     }
 
     Vector2 CheckBoundsAndBounce(Vector2 nextPos, Vector2 dir)
@@ -98,12 +98,12 @@ public abstract class Entity : MonoBehaviour, IEntity
         moveDirection = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)).normalized;
     }
 
-    public void Convert(IEntity victim, EType newType)
+    public void Convert(IEntity victim, EType newType, EArenaSide newSide)
     {
         if (victim is Entity e && !e.isPendingConvert)
         {
             e.isPendingConvert = true;
-            Arena.Instance.EnqueueConvert(victim, newType);
+            Arena.Instance.EnqueueConvert(victim, newType, newSide);
             canConvert = false;
             cooldownTimer = convertCooldown;
         }

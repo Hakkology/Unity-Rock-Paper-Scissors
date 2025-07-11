@@ -22,19 +22,19 @@ public class Spawner : MonoBehaviour
     
     public void SpawnLeftEntities()
     {
-        SpawnEntity(EType.Rock, ArenaSide.Left, Arena.Instance.LeftSpawnPoints[0]);
-        SpawnEntity(EType.Paper, ArenaSide.Left, Arena.Instance.LeftSpawnPoints[1]);
-        SpawnEntity(EType.Scissors, ArenaSide.Left, Arena.Instance.LeftSpawnPoints[2]);
+        SpawnEntity(EType.Rock, EArenaSide.Left, Arena.Instance.LeftSpawnPoints[0]);
+        SpawnEntity(EType.Paper, EArenaSide.Left, Arena.Instance.LeftSpawnPoints[1]);
+        SpawnEntity(EType.Scissors, EArenaSide.Left, Arena.Instance.LeftSpawnPoints[2]);
     }
 
     public void SpawnRightEntities()
     {
-        SpawnEntity(EType.Rock, ArenaSide.Right, Arena.Instance.RightSpawnPoints[0]);
-        SpawnEntity(EType.Paper, ArenaSide.Right, Arena.Instance.RightSpawnPoints[1]);
-        SpawnEntity(EType.Scissors, ArenaSide.Right, Arena.Instance.RightSpawnPoints[2]);
+        SpawnEntity(EType.Rock, EArenaSide.Right, Arena.Instance.RightSpawnPoints[0]);
+        SpawnEntity(EType.Paper, EArenaSide.Right, Arena.Instance.RightSpawnPoints[1]);
+        SpawnEntity(EType.Scissors, EArenaSide.Right, Arena.Instance.RightSpawnPoints[2]);
     }
 
-    private void SpawnEntity(EType type, ArenaSide side, Vector2 spawnPoint)
+    private void SpawnEntity(EType type, EArenaSide side, Vector2 spawnPoint)
     {
         GameObject prefab = type switch
         {

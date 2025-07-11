@@ -7,7 +7,7 @@ public enum EType
     Scissors
 }
 
-public enum ArenaSide
+public enum EArenaSide
 {
     Left,
     Right
@@ -15,7 +15,7 @@ public enum ArenaSide
 
 public interface IEntity
 {
-    ArenaSide Side { get; set; }
+    EArenaSide Side { get; set; }
     EType Type { get; }
     EType Prey { get; }
     void Init();
