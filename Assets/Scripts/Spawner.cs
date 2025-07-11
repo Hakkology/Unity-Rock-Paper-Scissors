@@ -46,7 +46,7 @@ public class Spawner : MonoBehaviour
 
         if (prefab == null) return;
 
-        GameObject go = Instantiate(prefab, spawnPoint, Quaternion.identity);
+        GameObject go = Instantiate(prefab, spawnPoint, Quaternion.identity, transform);
         if (go.TryGetComponent<IEntity>(out var entity))
         {
             entity.Side = side;
