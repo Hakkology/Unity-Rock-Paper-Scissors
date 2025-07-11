@@ -1,44 +1,26 @@
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class Forcefield : MonoBehaviour
 {
-    [Header("UI")]
-    [SerializeField] private Image image;
-    [SerializeField] private Material forcefieldMaterial;
+    [SerializeField] private Image leftField;
+    [SerializeField] private Image rightField;
+    [SerializeField] private float fadeDuration = 0.5f;
 
-    void Awake()
+    public void DisableLeftField()
     {
-        if (image != null && forcefieldMaterial != null)
-            image.material = forcefieldMaterial;
-    }
-
-    public void SetIdle()
-    {
-        SetShaderParams(0f, 1f);
-    }
-
-    public void SetBlueWins()
-    {
-        SetShaderParams(1f, 1f);
-    }
-
-    public void SetRedWins()
-    {
-        SetShaderParams(-1f, 1f);
-    }
-
-    public void Hide()
-    {
-        SetShaderParams(0f, 0f);
-    }
-
-    private void SetShaderParams(float direction, float strength)
-    {
-        if (forcefieldMaterial != null)
+        if (leftField != null)
         {
-            forcefieldMaterial.SetFloat("_Direction", direction);
-            forcefieldMaterial.SetFloat("_Strength", strength);
+            leftField.DOFade(0f, fadeDuration);
+        }
+    }
+
+    public void DisableRightField()
+    {
+        if (rightField != null)
+        {
+            rightField.DOFade(0f, fadeDuration);
         }
     }
 }

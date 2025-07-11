@@ -24,6 +24,7 @@ public class Arena : MonoBehaviour
 
 
     [Header("Area")]
+    [SerializeField] private Forcefield forcefield;
     [SerializeField] private BoxCollider2D mainArena;
     [SerializeField] private BoxCollider2D leftArena;
     [SerializeField] private BoxCollider2D rightArena;
@@ -34,9 +35,12 @@ public class Arena : MonoBehaviour
     public bool IsRightArenaActive => rightArena.enabled;
     public Vector2[] LeftSpawnPoints { get; private set; }
     public Vector2[] RightSpawnPoints { get; private set; }
+    public bool LeftResolved { get; private set; } = false;
+    public bool RightResolved { get; private set; } = false;
 
     private readonly Queue<(IEntity victim, EType newType, EArenaSide newSide)> convertQueue = new();
     private bool isConverting = false;
+
 
     void Awake()
     {
@@ -119,6 +123,9 @@ public class Arena : MonoBehaviour
 
     public void CheckAndDisableSideColliders()
     {
+        LeftResolved = false;
+        RightResolved = false;
+
         if (IsLeftArenaActive)
         {
             int leftTypeCount = 0;
@@ -127,7 +134,10 @@ public class Arena : MonoBehaviour
             if (LeftScissors.Any()) leftTypeCount++;
 
             if (leftTypeCount == 2)
+            {
                 DisableLeftArena();
+                forcefield.DisableLeftField();
+            }
         }
 
         if (IsRightArenaActive)
@@ -138,9 +148,14 @@ public class Arena : MonoBehaviour
             if (RightScissors.Any()) rightTypeCount++;
 
             if (rightTypeCount == 2)
+            {
                 DisableRightArena();
+                forcefield.DisableRightField();
+            }
         }
+
     }
+
 
     void CreateViewportBasedColliders()
     {
@@ -154,10 +169,10 @@ public class Arena : MonoBehaviour
         CreateColliderZone(ref mainArena, "MainArenaZone", mainBottomLeft, mainTopRight);
 
         Vector3 leftBottomLeft = cam.ViewportToWorldPoint(new Vector3(0.04f, 0.04f, cameraDistanceFromPlane));
-        Vector3 leftTopRight = cam.ViewportToWorldPoint(new Vector3(0.44f, 0.813333f, cameraDistanceFromPlane));
+        Vector3 leftTopRight = cam.ViewportToWorldPoint(new Vector3(0.46f, 0.813333f, cameraDistanceFromPlane));
         CreateColliderZone(ref leftArena, "LeftArenaZone", leftBottomLeft, leftTopRight);
 
-        Vector3 rightBottomLeft = cam.ViewportToWorldPoint(new Vector3(0.52f, 0.04f, cameraDistanceFromPlane));
+        Vector3 rightBottomLeft = cam.ViewportToWorldPoint(new Vector3(0.54f, 0.04f, cameraDistanceFromPlane));
         Vector3 rightTopRight = cam.ViewportToWorldPoint(new Vector3(0.96f, 0.813333f, cameraDistanceFromPlane));
         CreateColliderZone(ref rightArena, "RightArenaZone", rightBottomLeft, rightTopRight);
     }

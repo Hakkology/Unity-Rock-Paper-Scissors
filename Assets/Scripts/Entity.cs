@@ -6,7 +6,6 @@ using UnityEngine;
 public abstract class Entity : MonoBehaviour, IEntity
 {
     [Header("Movement Settings")]
-    [SerializeField] private float speed = 4f;
     [SerializeField] private float rotateSpeed = 4f;
 
     public EArenaSide Side { get; set; }
@@ -15,17 +14,29 @@ public abstract class Entity : MonoBehaviour, IEntity
     public bool isPendingConvert = false;
 
     Rigidbody2D rb;
+    SpriteRenderer sr;
     Vector2 moveDirection;
+
+    private float speed;
     private bool canConvert = true;
-    private float convertCooldown = 0.53f;
+    private float convertCooldown = 0.25f;
     private float cooldownTimer = 0f;
+
+    void Awake()
+    {
+        rb = GetComponent<Rigidbody2D>();
+        sr = GetComponent<SpriteRenderer>();
+    }
 
     public void Init()
     {
-        rb = GetComponent<Rigidbody2D>();
         SetRandomDirection();
-        // Debug.Log($"{Side} side is");
+        speed = Random.Range(12, 20);
         rb.velocity = moveDirection * speed;
+        if (Side == EArenaSide.Right)
+            sr.color = new Color32(0x8A, 0x9A, 0xFF, 0xFF);
+        else if (Side == EArenaSide.Left)
+            sr.color = new Color32(0xFF, 0xB9, 0xB9, 0xFF); 
     }
 
     void Update()
