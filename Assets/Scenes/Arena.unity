@@ -286,6 +286,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3500773898859674137, guid: 25307264295deaf1e8f77069ad50ee91, type: 3}
+      propertyPath: m_Name
+      value: RightScissorText
+      objectReference: {fileID: 0}
     - target: {fileID: 4199375168918208102, guid: 25307264295deaf1e8f77069ad50ee91, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -310,9 +314,13 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4393484260940204072, guid: 25307264295deaf1e8f77069ad50ee91, type: 3}
+      propertyPath: m_Name
+      value: RightScissorImage
+      objectReference: {fileID: 0}
     - target: {fileID: 6274712975760240793, guid: 25307264295deaf1e8f77069ad50ee91, type: 3}
       propertyPath: m_Name
-      value: CountHud (5)
+      value: RightScissor
       objectReference: {fileID: 0}
     - target: {fileID: 6855863571161238463, guid: 25307264295deaf1e8f77069ad50ee91, type: 3}
       propertyPath: m_Pivot.x
@@ -455,6 +463,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3500773898859674137, guid: 25307264295deaf1e8f77069ad50ee91, type: 3}
+      propertyPath: m_Name
+      value: RightRockText
+      objectReference: {fileID: 0}
     - target: {fileID: 4199375168918208102, guid: 25307264295deaf1e8f77069ad50ee91, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -479,9 +491,13 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4393484260940204072, guid: 25307264295deaf1e8f77069ad50ee91, type: 3}
+      propertyPath: m_Name
+      value: RightRockImage
+      objectReference: {fileID: 0}
     - target: {fileID: 6274712975760240793, guid: 25307264295deaf1e8f77069ad50ee91, type: 3}
       propertyPath: m_Name
-      value: CountHud (4)
+      value: RightRock
       objectReference: {fileID: 0}
     - target: {fileID: 6855863571161238463, guid: 25307264295deaf1e8f77069ad50ee91, type: 3}
       propertyPath: m_Pivot.x
@@ -1151,6 +1167,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3500773898859674137, guid: 25307264295deaf1e8f77069ad50ee91, type: 3}
+      propertyPath: m_Name
+      value: RightPaperText
+      objectReference: {fileID: 0}
     - target: {fileID: 4199375168918208102, guid: 25307264295deaf1e8f77069ad50ee91, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -1175,9 +1195,13 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4393484260940204072, guid: 25307264295deaf1e8f77069ad50ee91, type: 3}
+      propertyPath: m_Name
+      value: RightPaperImage
+      objectReference: {fileID: 0}
     - target: {fileID: 6274712975760240793, guid: 25307264295deaf1e8f77069ad50ee91, type: 3}
       propertyPath: m_Name
-      value: CountHud (3)
+      value: RightPaper
       objectReference: {fileID: 0}
     - target: {fileID: 6855863571161238463, guid: 25307264295deaf1e8f77069ad50ee91, type: 3}
       propertyPath: m_Pivot.x
@@ -1344,6 +1368,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3500773898859674137, guid: 25307264295deaf1e8f77069ad50ee91, type: 3}
+      propertyPath: m_Name
+      value: LeftRockText
+      objectReference: {fileID: 0}
     - target: {fileID: 4199375168918208102, guid: 25307264295deaf1e8f77069ad50ee91, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -1368,9 +1396,13 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4393484260940204072, guid: 25307264295deaf1e8f77069ad50ee91, type: 3}
+      propertyPath: m_Name
+      value: LeftRockImage
+      objectReference: {fileID: 0}
     - target: {fileID: 6274712975760240793, guid: 25307264295deaf1e8f77069ad50ee91, type: 3}
       propertyPath: m_Name
-      value: CountHud (1)
+      value: LeftRock
       objectReference: {fileID: 0}
     - target: {fileID: 6855863571161238463, guid: 25307264295deaf1e8f77069ad50ee91, type: 3}
       propertyPath: m_Pivot.x
@@ -1459,7 +1491,7 @@ PrefabInstance:
     - target: {fileID: 8339578662174137298, guid: 25307264295deaf1e8f77069ad50ee91, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 9e179559823c6e98e91571a25f76e7f1, type: 3}
+      objectReference: {fileID: 21300000, guid: 31e8050720367e5428795d0cd08928b9, type: 3}
     - target: {fileID: 8339578662174137298, guid: 25307264295deaf1e8f77069ad50ee91, type: 3}
       propertyPath: m_Color.b
       value: 1
@@ -1706,6 +1738,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3500773898859674137, guid: 25307264295deaf1e8f77069ad50ee91, type: 3}
+      propertyPath: m_Name
+      value: LeftScissorText
+      objectReference: {fileID: 0}
     - target: {fileID: 4199375168918208102, guid: 25307264295deaf1e8f77069ad50ee91, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -1730,9 +1766,13 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4393484260940204072, guid: 25307264295deaf1e8f77069ad50ee91, type: 3}
+      propertyPath: m_Name
+      value: LeftScissorImage
+      objectReference: {fileID: 0}
     - target: {fileID: 6274712975760240793, guid: 25307264295deaf1e8f77069ad50ee91, type: 3}
       propertyPath: m_Name
-      value: CountHud (2)
+      value: LeftScissor
       objectReference: {fileID: 0}
     - target: {fileID: 6855863571161238463, guid: 25307264295deaf1e8f77069ad50ee91, type: 3}
       propertyPath: m_Pivot.x
@@ -1821,7 +1861,7 @@ PrefabInstance:
     - target: {fileID: 8339578662174137298, guid: 25307264295deaf1e8f77069ad50ee91, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 31e8050720367e5428795d0cd08928b9, type: 3}
+      objectReference: {fileID: 21300000, guid: 9e179559823c6e98e91571a25f76e7f1, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2152,6 +2192,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3500773898859674137, guid: 25307264295deaf1e8f77069ad50ee91, type: 3}
+      propertyPath: m_Name
+      value: LeftPaperText
+      objectReference: {fileID: 0}
     - target: {fileID: 4199375168918208102, guid: 25307264295deaf1e8f77069ad50ee91, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -2176,9 +2220,13 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4393484260940204072, guid: 25307264295deaf1e8f77069ad50ee91, type: 3}
+      propertyPath: m_Name
+      value: LeftPaperImage
+      objectReference: {fileID: 0}
     - target: {fileID: 6274712975760240793, guid: 25307264295deaf1e8f77069ad50ee91, type: 3}
       propertyPath: m_Name
-      value: CountHud
+      value: LeftPaper
       objectReference: {fileID: 0}
     - target: {fileID: 6855863571161238463, guid: 25307264295deaf1e8f77069ad50ee91, type: 3}
       propertyPath: m_Pivot.x

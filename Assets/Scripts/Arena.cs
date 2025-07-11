@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -32,6 +33,9 @@ public class Arena : MonoBehaviour
     public Vector2[] LeftSpawnPoints { get; private set; }
     public Vector2[] RightSpawnPoints { get; private set; }
 
+    private readonly Queue<(IEntity victim, EType newType)> convertQueue = new();
+    private bool isConverting = false;
+
     void Awake()
     {
         if (Instance == null) Instance = this;
@@ -41,10 +45,74 @@ public class Arena : MonoBehaviour
         CalculateSpawnPoints();
     }
 
+    void Update()
+    {
+        if (!isConverting && convertQueue.Count > 0)
+            StartCoroutine(ProcessConvertQueue());
+    }
+
+    public void EnqueueConvert(IEntity victim, EType newType)
+    {
+        convertQueue.Enqueue((victim, newType));
+    }
+
     void CalculateSpawnPoints()
     {
         LeftSpawnPoints = GenerateEquilateralTrianglePoints(LeftArenaBounds, 3);
         RightSpawnPoints = GenerateEquilateralTrianglePoints(RightArenaBounds, 3);
+    }
+
+    private IEnumerator ProcessConvertQueue()
+    {
+        isConverting = true;
+
+        while (convertQueue.Count > 0)
+        {
+            var (victim, newType) = convertQueue.Dequeue();
+
+            if (victim is Entity victimEntity && victimEntity != null && victimEntity.gameObject != null)
+            {
+                DoConvert(victim, newType);
+            }
+
+            yield return null;
+        }
+
+        isConverting = false;
+    }
+
+    private void DoConvert(IEntity victim, EType newType)
+    {
+        if (victim is not Entity victimEntity || victimEntity == null || victimEntity.gameObject == null)
+            return;
+
+        var victimSide = victim.Side;
+        victimEntity.isPendingConvert = false;
+
+        AllEntities.Remove(victim);
+
+        GameObject prefab = newType switch
+        {
+            EType.Rock => rockPrefab,
+            EType.Paper => paperPrefab,
+            EType.Scissors => scissorsPrefab,
+            _ => null
+        };
+
+        if (prefab == null) return;
+
+        var go = Instantiate(prefab, victimEntity.transform.position, Quaternion.identity);
+        if (go.TryGetComponent<IEntity>(out var newIe))
+        {
+            newIe.Side = victimSide;
+            ((Entity)newIe).Init();
+            AllEntities.Add(newIe);
+        }
+
+        Destroy(victimEntity.gameObject);
+
+        CheckAndDisableSideColliders();
+        Hud.Instance.UpdateEntityCounters();
     }
 
     public void CheckAndDisableSideColliders()
@@ -56,7 +124,7 @@ public class Arena : MonoBehaviour
             if (LeftPapers.Any()) leftTypeCount++;
             if (LeftScissors.Any()) leftTypeCount++;
 
-            if (leftTypeCount == 1)
+            if (leftTypeCount == 2)
                 DisableLeftArena();
         }
 
@@ -67,7 +135,7 @@ public class Arena : MonoBehaviour
             if (RightPapers.Any()) rightTypeCount++;
             if (RightScissors.Any()) rightTypeCount++;
 
-            if (rightTypeCount == 1)
+            if (rightTypeCount == 2)
                 DisableRightArena();
         }
     }

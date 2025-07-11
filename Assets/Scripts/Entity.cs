@@ -12,6 +12,7 @@ public abstract class Entity : MonoBehaviour, IEntity
     public ArenaSide Side { get; set; }
     public abstract EType Type { get; }
     public abstract EType Prey { get; }
+    public bool isPendingConvert = false;
 
     Rigidbody2D rb;
     Vector2 moveDirection;
@@ -66,12 +67,12 @@ public abstract class Entity : MonoBehaviour, IEntity
     {
         if (!canConvert) return;
 
-        if (other.TryGetComponent<IEntity>(out var victim) && victim.Type == Prey)
-        {
-            Convert(victim, Type);
-            canConvert = false;
-            cooldownTimer = convertCooldown;
-        }
+        if (!other.TryGetComponent<IEntity>(out var victim)) return;
+        if (victim.Type != Prey) return;
+
+        //if (victim.Side == this.Side) return;
+
+        Convert(victim, Type);
     }
 
     Vector2 CheckBoundsAndBounce(Vector2 nextPos, Vector2 dir)
@@ -91,7 +92,6 @@ public abstract class Entity : MonoBehaviour, IEntity
         return newDir.normalized;
     }
 
-
     void SetRandomDirection()
     {
         float angle = Random.Range(0f, 2f * Mathf.PI);
@@ -100,33 +100,15 @@ public abstract class Entity : MonoBehaviour, IEntity
 
     public void Convert(IEntity victim, EType newType)
     {
-        var victimSide = victim.Side;
-
-        GameObject prefab = newType switch
+        if (victim is Entity e && !e.isPendingConvert)
         {
-            EType.Rock => Arena.Instance.rockPrefab,
-            EType.Paper => Arena.Instance.paperPrefab,
-            EType.Scissors => Arena.Instance.scissorsPrefab,
-            _ => null
-        };
-
-        if (prefab == null) return;
-
-        var go = Instantiate(prefab, ((Entity)victim).transform.position, Quaternion.identity);
-        if (go.TryGetComponent<IEntity>(out var newIe))
-        {
-            newIe.Side = victimSide;
-            ((Entity)newIe).Init();
-            Arena.Instance.AllEntities.Add(newIe);
+            e.isPendingConvert = true;
+            Arena.Instance.EnqueueConvert(victim, newType);
+            canConvert = false;
+            cooldownTimer = convertCooldown;
         }
-
-        Destroy(((Entity)victim).gameObject); 
-
-        Arena.Instance.CheckAndDisableSideColliders();
-        Hud.Instance.UpdateEntityCounters();
     }
 
-    
     protected virtual void OnDestroy()
     {
         Arena.Instance.AllEntities.Remove(this);
