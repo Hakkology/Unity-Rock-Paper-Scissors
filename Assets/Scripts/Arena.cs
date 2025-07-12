@@ -25,6 +25,7 @@ public class Arena : MonoBehaviour
 
     [Header("Area")]
     [SerializeField] private Forcefield forcefield;
+    [SerializeField] private Spawner spawner;
     [SerializeField] private BoxCollider2D mainArena;
     [SerializeField] private BoxCollider2D leftArena;
     [SerializeField] private BoxCollider2D rightArena;
@@ -135,7 +136,7 @@ public class Arena : MonoBehaviour
 
             if (leftTypeCount == 2)
             {
-                DisableLeftArena();
+                SwitchLeftArena(false);
                 forcefield.DisableLeftField();
             }
         }
@@ -149,7 +150,7 @@ public class Arena : MonoBehaviour
 
             if (rightTypeCount == 2)
             {
-                DisableRightArena();
+                SwitchRightArena(false);
                 forcefield.DisableRightField();
             }
         }
@@ -224,19 +225,41 @@ public class Arena : MonoBehaviour
         return MainArenaBounds;
     }
 
-    public void DisableLeftArena()
+    public void SwitchLeftArena(bool toggle)
     {
         if (leftArena != null)
         {
-            leftArena.enabled = false;
+            leftArena.enabled = toggle;
         }
     }
 
-    public void DisableRightArena()
+    public void SwitchRightArena(bool toggle)
     {
         if (rightArena != null)
         {
-            rightArena.enabled = false;
+            rightArena.enabled = toggle;
         }
+    }
+
+    public void ResetArena()
+    {
+        foreach (var entity in AllEntities.ToList())
+        {
+            if (entity is Entity e && e != null)
+            {
+                Destroy(e.gameObject);
+            }
+        }
+
+        AllEntities.Clear();
+        SwitchLeftArena(true);
+        SwitchRightArena(true);
+
+        LeftResolved = false;
+        RightResolved = false;
+
+        forcefield.ActivateFields();
+        spawner.InitiateSpawningEntities();
+        Hud.Instance.UpdateEntityCounters();
     }
 }

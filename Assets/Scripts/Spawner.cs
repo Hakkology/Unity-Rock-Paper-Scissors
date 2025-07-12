@@ -7,12 +7,11 @@ public class Spawner : MonoBehaviour
 
     void Start()
     {
-        if (Arena.Instance.LeftSpawnPoints.Length < 3 || Arena.Instance.RightSpawnPoints.Length < 3)
-        {
-            Debug.LogError("Yetersiz spawn noktası!");
-            return;
-        }
+        //InitiateSpawningEntities();
+    }
 
+    public void InitiateSpawningEntities()
+    {
         for (int i = 0; i < spawnCount; i++)
         {
             SpawnLeftEntities();
