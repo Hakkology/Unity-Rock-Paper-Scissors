@@ -29,7 +29,6 @@ public class PlayerPanel : BasePanel
     protected override void Awake()
     {
         base.Awake();
-        this.OpenPanel();
 
         redTeamButton.onClick.AddListener(() => SelectTeam(PTeamChoice.Red));
         blueTeamButton.onClick.AddListener(() => SelectTeam(PTeamChoice.Blue));

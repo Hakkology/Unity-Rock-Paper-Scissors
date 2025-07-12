@@ -10,5 +10,8 @@ public class GUIManager : MonoBehaviour
     {
         if (Instance == null) Instance = this;
         else Destroy(gameObject);
+
+        playerPanel.TogglePanel(true);
+        statusPanel.TogglePanel(false);
     }
 }

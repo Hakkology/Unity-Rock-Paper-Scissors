@@ -17,8 +17,6 @@ public enum PSideChoice
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
-
-    private bool _gameStart;
     private PSideChoice pSideChoice = PSideChoice.Rock;
     private PTeamChoice pTeamChoice = PTeamChoice.Red;
 
@@ -31,7 +29,12 @@ public class GameManager : MonoBehaviour
     public IEnumerator StartGame()
     {
         yield return new WaitForSeconds(.5f);
-        Arena.Instance.ResetArena();
+        Arena.Instance.RestartArena();
+    }
+
+    public IEnumerator GameOver(PTeamChoice winningTeam, PSideChoice winningSide)
+    {
+        yield return new WaitForSeconds(.5f);
     }
     
     public void SetPlayerTeam(PTeamChoice choice)
