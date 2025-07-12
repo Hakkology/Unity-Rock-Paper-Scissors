@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,6 +12,10 @@ public class PlayerPanel : BasePanel
     [SerializeField] private Button rockButton;
     [SerializeField] private Button paperButton;
     [SerializeField] private Button scissorsButton;
+
+    [Header("Info Texts")]
+    [SerializeField] private TextMeshProUGUI teamInfoText;
+    [SerializeField] private TextMeshProUGUI sideInfoText;
 
     protected override void Awake()
     {
@@ -27,10 +32,12 @@ public class PlayerPanel : BasePanel
     private void SelectTeam(PTeamChoice choice)
     {
         Game.Instance.SetPlayerTeam(choice);
+        teamInfoText.text = $"Team: {choice}";
     }
 
     private void SelectSide(PSideChoice choice)
     {
         Game.Instance.SetPlayerSide(choice);
+        sideInfoText.text = $"Side: {choice}";
     }
 }

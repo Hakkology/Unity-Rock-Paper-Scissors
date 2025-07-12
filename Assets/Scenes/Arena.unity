@@ -588,7 +588,7 @@ GameObject:
   - component: {fileID: 106226280}
   - component: {fileID: 106226279}
   m_Layer: 5
-  m_Name: Button
+  m_Name: RockButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1228,7 +1228,7 @@ GameObject:
   - component: {fileID: 288729220}
   - component: {fileID: 288729219}
   m_Layer: 5
-  m_Name: Text (TMP) (1)
+  m_Name: Side Choice
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1300,14 +1300,14 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 20
-  m_fontSizeBase: 20
+  m_fontSize: 25
+  m_fontSizeBase: 25
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 4
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -2287,7 +2287,7 @@ GameObject:
   - component: {fileID: 772417581}
   - component: {fileID: 772417580}
   m_Layer: 5
-  m_Name: Button
+  m_Name: ScissorButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2652,7 +2652,7 @@ RectTransform:
   m_GameObject: {fileID: 863618998}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1.2, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1551184696}
@@ -3042,12 +3042,14 @@ MonoBehaviour:
   canvasGroup: {fileID: 1036808421}
   transitionDuration: 0.25
   transitionEase: 9
-  IsOpen: 0
-  redTeamButton: {fileID: 0}
-  blueTeamButton: {fileID: 0}
-  rockButton: {fileID: 0}
-  paperButton: {fileID: 0}
-  scissorsButton: {fileID: 0}
+  IsOpen: 1
+  redTeamButton: {fileID: 831923736}
+  blueTeamButton: {fileID: 1619042899}
+  rockButton: {fileID: 106226279}
+  paperButton: {fileID: 1624137525}
+  scissorsButton: {fileID: 772417580}
+  teamInfoText: {fileID: 1854252325}
+  sideInfoText: {fileID: 288729219}
 --- !u!225 &1036808421
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -4483,7 +4485,7 @@ GameObject:
   - component: {fileID: 1624137526}
   - component: {fileID: 1624137525}
   m_Layer: 5
-  m_Name: Button
+  m_Name: PaperButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4910,7 +4912,7 @@ GameObject:
   - component: {fileID: 1854252326}
   - component: {fileID: 1854252325}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Team Choice
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4982,14 +4984,14 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 20
-  m_fontSizeBase: 20
+  m_fontSize: 25
+  m_fontSizeBase: 25
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
