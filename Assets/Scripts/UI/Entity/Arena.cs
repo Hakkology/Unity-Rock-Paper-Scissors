@@ -119,7 +119,7 @@ public class Arena : MonoBehaviour
         Destroy(victimEntity.gameObject);
 
         CheckAndDisableSideColliders();
-        Hud.Instance.UpdateEntityCounters();
+        HUDManager.Instance.UpdateEntityCounters();
     }
 
     public void CheckAndDisableSideColliders()
@@ -260,6 +260,6 @@ public class Arena : MonoBehaviour
 
         forcefield.ActivateFields();
         spawner.InitiateSpawningEntities();
-        Hud.Instance.UpdateEntityCounters();
+        HUDManager.Instance.UpdateEntityCounters();
     }
 }

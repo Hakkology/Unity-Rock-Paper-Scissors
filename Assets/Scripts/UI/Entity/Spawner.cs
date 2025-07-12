@@ -51,7 +51,7 @@ public class Spawner : MonoBehaviour
             entity.Side = side;
             Arena.Instance.AllEntities.Add(entity);
             entity.Init();
-            Hud.Instance.UpdateEntityCounters();                         
+            HUDManager.Instance.UpdateEntityCounters();                         
         }
     }
 }

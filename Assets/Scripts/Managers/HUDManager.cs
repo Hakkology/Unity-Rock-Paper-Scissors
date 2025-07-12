@@ -2,9 +2,9 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 
-public class Hud : MonoBehaviour
+public class HUDManager : MonoBehaviour
 {
-    public static Hud Instance;
+    public static HUDManager Instance;
     [SerializeField] private CanvasGroup canvasGroup;
 
     [SerializeField]

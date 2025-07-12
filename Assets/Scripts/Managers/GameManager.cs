@@ -14,10 +14,9 @@ public enum PSideChoice
     Scissors,
 }
 
-public class Game : MonoBehaviour
+public class GameManager : MonoBehaviour
 {
-    public static Game Instance { get; private set; }
-    [SerializeField] private PlayerPanel playerPanel;
+    public static GameManager Instance { get; private set; }
 
     private bool _gameStart;
     private PSideChoice pSideChoice = PSideChoice.Rock;
@@ -29,13 +28,7 @@ public class Game : MonoBehaviour
         else Destroy(gameObject);
     }
 
-    public void StartGame()
-    {
-
-    }
-
-
-    IEnumerator RestartGame()
+    public IEnumerator StartGame()
     {
         yield return new WaitForSeconds(.5f);
         Arena.Instance.ResetArena();
