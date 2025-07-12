@@ -127,53 +127,31 @@ public class Arena : MonoBehaviour
         LeftResolved = false;
         RightResolved = false;
 
-        int leftTypeCount = 0;
-        PSideChoice? leftRemainingSide = null;
-        if (LeftRocks.Any()) { leftTypeCount++; leftRemainingSide = PSideChoice.Rock; }
-        if (LeftPapers.Any()) { leftTypeCount++; leftRemainingSide = PSideChoice.Paper; }
-        if (LeftScissors.Any()) { leftTypeCount++; leftRemainingSide = PSideChoice.Scissors; }
-
-        int rightTypeCount = 0;
-        PSideChoice? rightRemainingSide = null;
-        if (RightRocks.Any()) { rightTypeCount++; rightRemainingSide = PSideChoice.Rock; }
-        if (RightPapers.Any()) { rightTypeCount++; rightRemainingSide = PSideChoice.Paper; }
-        if (RightScissors.Any()) { rightTypeCount++; rightRemainingSide = PSideChoice.Scissors; }
-
-        if (IsLeftArenaActive && leftTypeCount == 2)
+        if (IsLeftArenaActive)
         {
-            SwitchLeftArena(false);
-            forcefield.DisableLeftField();
-        }
+            int leftTypeCount = 0;
+            if (LeftRocks.Any()) leftTypeCount++;
+            if (LeftPapers.Any()) leftTypeCount++;
+            if (LeftScissors.Any()) leftTypeCount++;
 
-        if (IsRightArenaActive && rightTypeCount == 2)
-        {
-            SwitchRightArena(false);
-            forcefield.DisableRightField();
-        }
-
-        if (leftTypeCount == 1 && rightTypeCount == 1)
-        {
-            int leftWinnerCount = 0;
-            if (leftRemainingSide == PSideChoice.Rock) leftWinnerCount = LeftRocks.Count();
-            else if (leftRemainingSide == PSideChoice.Paper) leftWinnerCount = LeftPapers.Count();
-            else if (leftRemainingSide == PSideChoice.Scissors) leftWinnerCount = LeftScissors.Count();
-
-            int rightWinnerCount = 0;
-            if (rightRemainingSide == PSideChoice.Rock) rightWinnerCount = RightRocks.Count();
-            else if (rightRemainingSide == PSideChoice.Paper) rightWinnerCount = RightPapers.Count();
-            else if (rightRemainingSide == PSideChoice.Scissors) rightWinnerCount = RightScissors.Count();
-
-
-            if (leftWinnerCount >= 60)
+            if (leftTypeCount == 2)
             {
-                GameManager.Instance.GameOver(PTeamChoice.Red, leftRemainingSide.Value);
-                Debug.Log($"Game Over! Red Team ({leftRemainingSide.Value}) wins with {leftWinnerCount} entities!");
+                SwitchLeftArena(false);
+                forcefield.DisableLeftField();
             }
+        }
 
-            else if (rightWinnerCount >= 60)
+        if (IsRightArenaActive)
+        {
+            int rightTypeCount = 0;
+            if (RightRocks.Any()) rightTypeCount++;
+            if (RightPapers.Any()) rightTypeCount++;
+            if (RightScissors.Any()) rightTypeCount++;
+
+            if (rightTypeCount == 2)
             {
-                GameManager.Instance.GameOver(PTeamChoice.Blue, rightRemainingSide.Value);
-                Debug.Log($"Game Over! Blue Team ({rightRemainingSide.Value}) wins with {rightWinnerCount} entities!");
+                SwitchRightArena(false);
+                forcefield.DisableRightField();
             }
         }
 
