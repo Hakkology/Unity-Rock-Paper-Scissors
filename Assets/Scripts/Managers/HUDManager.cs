@@ -23,6 +23,8 @@ public class HUDManager : MonoBehaviour
     private TextMeshProUGUI leftTotalText;
     [SerializeField]
     private TextMeshProUGUI rightTotalText;
+    [SerializeField]
+    private TextMeshProUGUI playerText;
 
     void Awake()
     {
@@ -41,6 +43,8 @@ public class HUDManager : MonoBehaviour
     public void UpdateRightScissorText(string message) => rightScissorText.text = message;
     public void UpdateLeftTotalText(string message) => leftTotalText.text = message;
     public void UpdateRightTotalText(string message) => rightTotalText.text = message;
+    public void UpdatePlayerText(string message) => playerText.text = message;
+    //public void UpdateWinnerText(string message) => winnerText.text = message;
 
     public void UpdateEntityCounters()
     {

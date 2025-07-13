@@ -12,6 +12,6 @@ public class GUIManager : MonoBehaviour
 
         
         playerPanel.TogglePanel(true);
-        statusPanel.TogglePanel(false, false, false, false);
+        statusPanel.TogglePanel(false, false, false, false, "");
     }
 }

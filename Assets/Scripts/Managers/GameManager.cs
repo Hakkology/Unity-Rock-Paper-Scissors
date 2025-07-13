@@ -27,6 +27,8 @@ public class GameManager : MonoBehaviour
             yield break;
         }
 
+        HUDManager.Instance.UpdatePlayerText("You: " + pTeamChoice.ToString() + " " + pTypeChoice.ToString());
+
         yield return new WaitForSeconds(.5f);
         Arena.Instance.RestartArena();
     }
@@ -34,16 +36,18 @@ public class GameManager : MonoBehaviour
     public IEnumerator GameOver(bool hasWinner, PTeam winningTeam = default, EType winningSide = default)
     {
         yield return new WaitForSeconds(.5f);
+        HUDManager.Instance.DisableHud();
 
         if (hasWinner)
         {
+            string text = winningTeam.ToString() + " " + winningSide.ToString() + " wins";
             bool isPlayerWinnerType = pTypeChoice == winningSide;
             bool isPlayerWinningTeam = pTeamChoice == winningTeam;
-            GUIManager.Instance.statusPanel.ShowStatusPanel(hasWinner, isPlayerWinnerType, isPlayerWinningTeam);
+            GUIManager.Instance.statusPanel.ShowStatusPanel(hasWinner, isPlayerWinnerType, isPlayerWinningTeam, text);
         }
         else
         {
-            GUIManager.Instance.statusPanel.ShowStatusPanel(hasWinner, false, false);
+            GUIManager.Instance.statusPanel.ShowStatusPanel(hasWinner, false, false, "");
         }
 
         GUIManager.Instance.playerPanel.ResetPanel();

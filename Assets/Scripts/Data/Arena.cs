@@ -279,6 +279,8 @@ public class Arena : MonoBehaviour
     public void RestartArena()
     {
         GUIManager.Instance.playerPanel.ClosePanel();
+        GUIManager.Instance.statusPanel.ClosePanel();
+        HUDManager.Instance.EnableHud();
 
         foreach (var entity in AllEntities.ToList())
         {
