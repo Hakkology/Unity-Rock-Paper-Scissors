@@ -3,10 +3,18 @@ using UnityEngine.SceneManagement;
 
 public class MenuGUIManager : MonoBehaviour
 {
+    public static MenuGUIManager Instance { get; private set; }
+
     [Header("Panels")]
-    [SerializeField] private BasePanel mainMenuPanel;
-    [SerializeField] private BasePanel settingsPanel;
-    [SerializeField] private BasePanel creditsPanel;
+    public BasePanel mainMenuPanel;
+    public BasePanel settingsPanel;
+    public BasePanel creditsPanel;
+
+    void Awake()
+    {
+        if (Instance == null) Instance = this;
+        else Destroy(gameObject);
+    }
 
     private void Start()
     {
@@ -29,45 +37,14 @@ public class MenuGUIManager : MonoBehaviour
                 creditsPanel.ClosePanel();
                 mainMenuPanel.OpenPanel();
             }
-            else if (mainMenuPanel.IsOpen)
-            {
-                OnExitPressed();
-            }
         }
     }
 
-    public void OnPlayPressed()
-    {
-        mainMenuPanel.ClosePanel();
-        SceneManager.LoadScene("ShooterScene");
-    }
-
-    public void OnCreditsPressed()
-    {
-        mainMenuPanel.ClosePanel();
-        settingsPanel.ClosePanel();
-        creditsPanel.OpenPanel();
-    }
-
-    public void OnSettingsPressed()
-    {
-        mainMenuPanel.ClosePanel();
-        creditsPanel.ClosePanel();
-        settingsPanel.OpenPanel();
-    }
-
-    public void OnBackToMenuPressed()
-    {
-        settingsPanel.ClosePanel();
-        creditsPanel.ClosePanel();
-        mainMenuPanel.OpenPanel();
-    }
-
-    public void OnExitPressed()
-    {
-        Application.Quit();
-    #if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-    #endif
-    }
+    // public void OnExitPressed()
+    // {
+    //     Application.Quit();
+    // #if UNITY_EDITOR
+    //     UnityEditor.EditorApplication.isPlaying = false;
+    // #endif
+    // }
 }
