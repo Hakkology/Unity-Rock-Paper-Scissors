@@ -22,11 +22,4 @@ public class MenuBasePanel : BasePanel
         MenuGUIManager.Instance.creditsPanel.ClosePanel();
         MenuGUIManager.Instance.settingsPanel.OpenPanel();
     }
-
-    public void OnBackToMenuPressed()
-    {
-        MenuGUIManager.Instance.settingsPanel.ClosePanel();
-        MenuGUIManager.Instance.creditsPanel.ClosePanel();
-        MenuGUIManager.Instance.mainMenuPanel.OpenPanel();
-    }
 }

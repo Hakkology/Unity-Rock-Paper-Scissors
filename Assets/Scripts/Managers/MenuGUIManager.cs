@@ -40,6 +40,13 @@ public class MenuGUIManager : MonoBehaviour
         }
     }
 
+    public void OnBackToMenuPressed()
+    {
+        settingsPanel.ClosePanel();
+        creditsPanel.ClosePanel();
+        mainMenuPanel.OpenPanel();
+    }
+
     // public void OnExitPressed()
     // {
     //     Application.Quit();
