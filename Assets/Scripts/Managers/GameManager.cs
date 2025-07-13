@@ -1,24 +1,17 @@
 using System.Collections;
 using UnityEngine;
 
-public enum PTeamChoice
+public enum PTeam
 {
     Red,
     Blue
 }
 
-public enum PSideChoice
-{
-    Rock,
-    Paper,
-    Scissors,
-}
-
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
-    private PSideChoice pSideChoice = PSideChoice.Rock;
-    private PTeamChoice pTeamChoice = PTeamChoice.Red;
+    private EType? pTypeChoice = null;
+    private PTeam? pTeamChoice = null;
 
     void Awake()
     {
@@ -28,25 +21,51 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator StartGame()
     {
+        if (pTeamChoice == null || pTypeChoice == null)
+        {
+            Debug.Log("Choose team or side.");
+            yield break;
+        }
+
         yield return new WaitForSeconds(.5f);
         Arena.Instance.RestartArena();
     }
 
-    public IEnumerator GameOver(PTeamChoice winningTeam, PSideChoice winningSide)
+    public IEnumerator GameOver(bool hasWinner, PTeam winningTeam = default, EType winningSide = default)
     {
         yield return new WaitForSeconds(.5f);
+
+        if (hasWinner)
+        {
+            bool isPlayerWinnerType = pTypeChoice == winningSide;
+            bool isPlayerWinningTeam = pTeamChoice == winningTeam;
+            GUIManager.Instance.statusPanel.ShowStatusPanel(hasWinner, isPlayerWinnerType, isPlayerWinningTeam);
+        }
+        else
+        {
+            GUIManager.Instance.statusPanel.ShowStatusPanel(hasWinner, false, false);
+        }
+
+        GUIManager.Instance.playerPanel.ResetPanel();
+        GUIManager.Instance.playerPanel.TogglePanel(true);
     }
-    
-    public void SetPlayerTeam(PTeamChoice choice)
+
+    public void SetPlayerTeam(PTeam choice)
     {
         pTeamChoice = choice;
         Debug.Log("Team selected: " + choice);
     }
 
-    public void SetPlayerSide(PSideChoice choice)
+    public void SetPlayerSide(EType choice)
     {
-        pSideChoice = choice;
+        pTypeChoice = choice;
         Debug.Log("Side selected: " + choice);
+    }
+
+    public void ResetPlayerChoices()
+    {
+        pTeamChoice = null;
+        pTypeChoice = null;
     }
 
 }

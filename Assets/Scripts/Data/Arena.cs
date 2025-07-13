@@ -41,6 +41,7 @@ public class Arena : MonoBehaviour
 
     private readonly Queue<(IEntity victim, EType newType, EArenaSide newSide)> convertQueue = new();
     private bool isConverting = false;
+    private bool winConditionTriggered = false;
 
 
     void Awake()
@@ -111,6 +112,7 @@ public class Arena : MonoBehaviour
         var go = Instantiate(prefab, victimEntity.transform.position, Quaternion.identity);
         if (go.TryGetComponent<IEntity>(out var newIe))
         {
+            //Debug.Log($"Spawned: {newIe.Type}, is IRock: {newIe is IRock}, is IPaper: {newIe is IPaper}, is IScissor: {newIe is IScissor}");
             newIe.Side = (victimSide != newSide) ? newSide : victimSide;
             ((Entity)newIe).Init();
             AllEntities.Add(newIe);
@@ -124,37 +126,70 @@ public class Arena : MonoBehaviour
 
     public void CheckAndDisableSideColliders()
     {
+        WinCondition[] winConditions = new WinCondition[2]
+        {
+            new WinCondition { IsTriggered = false, Side = EType.Rock },
+            new WinCondition { IsTriggered = false, Side = EType.Rock }
+        };
+
         LeftResolved = false;
         RightResolved = false;
 
-        if (IsLeftArenaActive)
-        {
-            int leftTypeCount = 0;
-            if (LeftRocks.Any()) leftTypeCount++;
-            if (LeftPapers.Any()) leftTypeCount++;
-            if (LeftScissors.Any()) leftTypeCount++;
+        int leftTypeCount = 0;
+        if (LeftRocks.Any()) { leftTypeCount++; winConditions[0].Side = EType.Rock; }
+        if (LeftPapers.Any()) { leftTypeCount++; winConditions[0].Side = EType.Paper; }
+        if (LeftScissors.Any()) { leftTypeCount++; winConditions[0].Side = EType.Scissors; }
 
-            if (leftTypeCount == 2)
-            {
-                SwitchLeftArena(false);
-                forcefield.DisableLeftField();
-            }
+        if (leftTypeCount <= 1)
+            winConditions[0].IsTriggered = true;
+
+        else if (leftTypeCount == 2)
+        {
+            SwitchLeftArena(false);
+            forcefield.DisableLeftField();
         }
 
-        if (IsRightArenaActive)
-        {
-            int rightTypeCount = 0;
-            if (RightRocks.Any()) rightTypeCount++;
-            if (RightPapers.Any()) rightTypeCount++;
-            if (RightScissors.Any()) rightTypeCount++;
+        int rightTypeCount = 0;
+        if (RightRocks.Any()) { rightTypeCount++; winConditions[1].Side = EType.Rock; }
+        if (RightPapers.Any()) { rightTypeCount++; winConditions[1].Side = EType.Paper; }
+        if (RightScissors.Any()) { rightTypeCount++; winConditions[1].Side = EType.Scissors; }
 
-            if (rightTypeCount == 2)
+        if (rightTypeCount <= 1)
+            winConditions[1].IsTriggered = true;
+        else if (rightTypeCount == 2)
+        {
+            SwitchRightArena(false);
+            forcefield.DisableRightField();
+        }
+        
+        if (winConditions[0].IsTriggered && winConditions[1].IsTriggered && !winConditionTriggered)
+        {
+            winConditionTriggered = true;
+            var left = winConditions[0].Side;
+            var right = winConditions[1].Side;
+
+            if (left == right)
             {
-                SwitchRightArena(false);
-                forcefield.DisableRightField();
+                int leftCount = Arena.Instance.LeftEntities.Count(e => e.Type == left);
+                int rightCount = Arena.Instance.RightEntities.Count(e => e.Type == right);
+
+                if (leftCount > rightCount)
+                    StartCoroutine(GameManager.Instance.GameOver(true, PTeam.Red, left));
+                else if (rightCount > leftCount)
+                    StartCoroutine(GameManager.Instance.GameOver(true, PTeam.Blue, left));
+                else
+                    StartCoroutine(GameManager.Instance.GameOver(false));
+            }
+            else
+            {
+                if (left == TypeHelper.GetPrey(right))
+                    StartCoroutine(GameManager.Instance.GameOver(true, PTeam.Blue, right));
+                else if (right == TypeHelper.GetPrey(left))
+                    StartCoroutine(GameManager.Instance.GameOver(true, PTeam.Red, left));
+                else
+                    StartCoroutine(GameManager.Instance.GameOver(false));
             }
         }
-
     }
 
 
@@ -257,6 +292,7 @@ public class Arena : MonoBehaviour
         SwitchLeftArena(true);
         SwitchRightArena(true);
 
+        winConditionTriggered = false;
         LeftResolved = false;
         RightResolved = false;
 

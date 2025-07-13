@@ -30,24 +30,46 @@ public class PlayerPanel : BasePanel
     {
         base.Awake();
 
-        redTeamButton.onClick.AddListener(() => SelectTeam(PTeamChoice.Red));
-        blueTeamButton.onClick.AddListener(() => SelectTeam(PTeamChoice.Blue));
+        redTeamButton.onClick.AddListener(() => SelectTeam(PTeam.Red));
+        blueTeamButton.onClick.AddListener(() => SelectTeam(PTeam.Blue));
 
-        rockButton.onClick.AddListener(() => SelectSide(PSideChoice.Rock));
-        paperButton.onClick.AddListener(() => SelectSide(PSideChoice.Paper));
-        scissorsButton.onClick.AddListener(() => SelectSide(PSideChoice.Scissors));
+        rockButton.onClick.AddListener(() => SelectSide(EType.Rock));
+        paperButton.onClick.AddListener(() => SelectSide(EType.Paper));
+        scissorsButton.onClick.AddListener(() => SelectSide(EType.Scissors));
     }
 
-    private void SelectTeam(PTeamChoice choice)
+    private void SelectTeam(PTeam? choice)
     {
-        GameManager.Instance.SetPlayerTeam(choice);
-        teamInfoText.text = $"Team: {choice}";
+        if (choice == null)
+        {
+            teamInfoText.text = $"Choose Team";
+        }
+        else
+        {
+            GameManager.Instance.SetPlayerTeam(choice.Value);
+            teamInfoText.text = $"Team: {choice}";
+        }
+
     }
 
-    private void SelectSide(PSideChoice choice)
+    private void SelectSide(EType? choice)
     {
-        GameManager.Instance.SetPlayerSide(choice);
-        sideInfoText.text = $"Side: {choice}";
+        if (choice == null)
+        {
+            teamInfoText.text = $"Choose Side";
+        }
+        else
+        {
+            GameManager.Instance.SetPlayerSide(choice.Value);
+            sideInfoText.text = $"Side: {choice}";
+        }
+    }
+
+    public void ResetPanel()
+    {
+        GameManager.Instance.ResetPlayerChoices();
+        SelectSide(null);
+        SelectTeam(null);
     }
 
     public void StartGame()

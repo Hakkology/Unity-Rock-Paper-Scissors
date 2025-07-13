@@ -13,39 +13,54 @@ public class StatusPanel : BasePanel
     [SerializeField] private Image leftTeamImage;
     [SerializeField] private Image leftSideImage;
 
-    public void TogglePanel(bool open)
+    public void TogglePanel(bool open, bool hasWinner, bool sidewins, bool teamwins)
     {
         if (open)
-            this.OpenPanel();
+            ShowStatusPanel(hasWinner, sidewins, teamwins);
         else
             this.ClosePanel();
     }
 
-    public void UpdateUIElements(bool sidewins, bool teamwins)
+    public void ShowStatusPanel(bool hasWinner, bool sidewins, bool teamwins)
     {
-        if (!sidewins && !teamwins)
+        this.OpenPanel();
+        UpdateUIElements(hasWinner, sidewins, teamwins);
+    }
+
+    public void UpdateUIElements(bool hasWinner, bool sidewins, bool teamwins)
+    {
+        if (hasWinner)
         {
-            statusText.text = "FAILED!";
-            leftSideImage.sprite = passiveStar;
-            leftTeamImage.sprite = passiveStar;
-        }
-        else if (sidewins && !teamwins)
-        {
-            statusText.text = "NOT BAD!";
-            leftSideImage.sprite = activeStar;
-            leftTeamImage.sprite = passiveStar;
-        }
-        else if (!sidewins && teamwins)
-        {
-            statusText.text = "NOT BAD!";
-            leftSideImage.sprite = passiveStar;
-            leftTeamImage.sprite = activeStar;
+            if (!sidewins && !teamwins)
+            {
+                statusText.text = "FAILED!";
+                leftSideImage.sprite = passiveStar;
+                leftTeamImage.sprite = passiveStar;
+            }
+            else if (sidewins && !teamwins)
+            {
+                statusText.text = "NOT BAD!";
+                leftSideImage.sprite = activeStar;
+                leftTeamImage.sprite = passiveStar;
+            }
+            else if (!sidewins && teamwins)
+            {
+                statusText.text = "NOT BAD!";
+                leftSideImage.sprite = passiveStar;
+                leftTeamImage.sprite = activeStar;
+            }
+            else
+            {
+                statusText.text = "PERFECT!";
+                leftSideImage.sprite = activeStar;
+                leftTeamImage.sprite = activeStar;
+            }
         }
         else
         {
-            statusText.text = "PERFECT!";
-            leftSideImage.sprite = activeStar;
-            leftTeamImage.sprite = activeStar;
+            statusText.text = "RARE!";
+            leftSideImage.sprite = passiveStar;
+            leftTeamImage.sprite = passiveStar;
         }
     }
 }
