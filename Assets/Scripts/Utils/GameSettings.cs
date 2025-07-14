@@ -8,9 +8,10 @@ public class GameSettings : MonoBehaviour
 
     [Header("Audio")]
     public AudioMixer mainMixer;
-    public string masterVolumeParam = "MasterVolume";
-    public string musicVolumeParam = "MusicVolume";
-    public string soundVolumeParam = "SoundVolume";
+    private string masterVolumeParam = "MasterVolume";
+    private string musicVolumeParam = "MusicVolume";
+    private string soundVolumeParam = "SoundVolume";
+    private string muteVolumeParam = "IsMuted";
 
     [Range(0f, 1f)] public float masterVolume = 1f;
     [Range(0f, 1f)] public float musicVolume = 1f;
@@ -78,9 +79,36 @@ public class GameSettings : MonoBehaviour
 
     private void ApplyAudioSettings()
     {
+        LoadSettings();
         SetMasterVolume(masterVolume);
         SetMusicVolume(musicVolume);
         SetSoundVolume(soundVolume);
         ToggleMute(isMuted);
+    }
+
+    public void SaveSettings()
+    {
+        PlayerPrefs.SetFloat(masterVolumeParam, masterVolume);
+        PlayerPrefs.SetFloat(musicVolumeParam, musicVolume);
+        PlayerPrefs.SetFloat(soundVolumeParam, soundVolume);
+        PlayerPrefs.SetInt(muteVolumeParam, isMuted ? 1 : 0);
+        PlayerPrefs.Save();
+    }
+
+    public void LoadSettings()
+    {
+        if (PlayerPrefs.HasKey(masterVolumeParam))
+            masterVolume = PlayerPrefs.GetFloat(masterVolumeParam);
+
+        if (PlayerPrefs.HasKey(musicVolumeParam))
+            musicVolume = PlayerPrefs.GetFloat(musicVolumeParam);
+
+        if (PlayerPrefs.HasKey(soundVolumeParam))
+            soundVolume = PlayerPrefs.GetFloat(soundVolumeParam);
+
+        if (PlayerPrefs.HasKey(muteVolumeParam))
+            isMuted = PlayerPrefs.GetInt(muteVolumeParam) == 1;
+
+        ApplyAudioSettings();
     }
 }
