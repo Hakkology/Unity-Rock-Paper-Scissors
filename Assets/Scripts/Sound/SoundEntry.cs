@@ -2,18 +2,13 @@ using UnityEngine;
 
 public enum SoundID
 {
-    CorrectType,
-    FalseType,
-    LaserShoot,
-    ImpactAstro,
-    ExplosionAstro,
-    LockTarget,
-    ImpactShip,
-    ExplosionShip,   
-    HPLost,
+    RockConvert,
+    PaperConvert,
+    ScissorConvert,
     ButtonClick,
-    GameOver,
-    ScoreUp,
+    GameStart,
+    GameOverFail,
+    GameOverSuccess,
 }
 
 [System.Serializable]
