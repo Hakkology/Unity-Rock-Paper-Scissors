@@ -109,6 +109,6 @@ public class GameSettings : MonoBehaviour
         if (PlayerPrefs.HasKey(muteVolumeParam))
             isMuted = PlayerPrefs.GetInt(muteVolumeParam) == 1;
 
-        ApplyAudioSettings();
+        //ApplyAudioSettings();
     }
 }

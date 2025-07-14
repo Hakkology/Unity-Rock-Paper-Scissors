@@ -1,15 +1,15 @@
+using System.Collections;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class MenuBasePanel : BasePanel 
+public class MenuBasePanel : BasePanel
 {
-    public async void OnPlayPressed()
+    public void OnPlayPressed()
     {
         MenuGUIManager.Instance.mainMenuPanel.ClosePanel();
         SoundManager.Instance.soundController.RequestSound(SoundID.ButtonClick);
-        await Task.Delay(300); 
-        SceneManager.LoadScene("Arena");
+        StartCoroutine(DelayedSceneLoad());
     }
 
     public void OnCreditsPressed()
@@ -26,5 +26,11 @@ public class MenuBasePanel : BasePanel
         MenuGUIManager.Instance.mainMenuPanel.ClosePanel();
         MenuGUIManager.Instance.creditsPanel.ClosePanel();
         MenuGUIManager.Instance.settingsPanel.OpenPanel();
+    }
+    
+    private IEnumerator DelayedSceneLoad()
+    {
+        yield return new WaitForSeconds(0.3f);
+        SceneManager.LoadScene("Arena");
     }
 }
