@@ -5,7 +5,7 @@ using TMPro;
 public class SettingsBasePanel : BasePanel
 {
     [Header("UI Elements")]
-    [SerializeField] private TMP_Dropdown languageDropdown;
+    //500[SerializeField] private TMP_Dropdown languageDropdown;
     // [SerializeField] private Toggle vibrationToggle;
     [SerializeField] private Toggle muteToggle;
     [SerializeField] private Slider masterVolumeSlider;
@@ -20,8 +20,8 @@ public class SettingsBasePanel : BasePanel
     protected virtual void SetupUI()
     {
         // Dropdown - Dil Seçimi
-        languageDropdown.onValueChanged.AddListener(OnLanguageChanged);
-        languageDropdown.value = (int)GameSettings.Instance.currentLanguage;
+        // languageDropdown.onValueChanged.AddListener(OnLanguageChanged);
+        // languageDropdown.value = (int)GameSettings.Instance.currentLanguage;
 
         // Titreşim
         // vibrationToggle.onValueChanged.AddListener(OnVibrationToggled);
@@ -42,10 +42,10 @@ public class SettingsBasePanel : BasePanel
         soundVolumeSlider.value = GameSettings.Instance.soundVolume;
     }
 
-    private void OnLanguageChanged(int index)
-    {
-        GameSettings.Instance.SetLanguage((Language)index);
-    }
+    // private void OnLanguageChanged(int index)
+    // {
+    //     GameSettings.Instance.SetLanguage((Language)index);
+    // }
 
     // private void OnVibrationToggled(bool isOn)
     // {
