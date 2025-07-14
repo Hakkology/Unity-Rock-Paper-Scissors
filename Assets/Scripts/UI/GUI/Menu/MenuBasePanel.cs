@@ -7,7 +7,7 @@ public class MenuBasePanel : BasePanel
 {
     public void OnPlayPressed()
     {
-        MenuGUIManager.Instance.mainMenuPanel.ClosePanel();
+        //MenuGUIManager.Instance.mainMenuPanel.ClosePanel();
         SoundManager.Instance.soundController.RequestSound(SoundID.ButtonClick);
         StartCoroutine(DelayedSceneLoad());
     }
@@ -27,10 +27,11 @@ public class MenuBasePanel : BasePanel
         MenuGUIManager.Instance.creditsPanel.ClosePanel();
         MenuGUIManager.Instance.settingsPanel.OpenPanel();
     }
-    
+
     private IEnumerator DelayedSceneLoad()
     {
         yield return new WaitForSeconds(0.3f);
         SceneManager.LoadScene("Arena");
+        
     }
 }
