@@ -29,11 +29,13 @@ public class MenuGUIManager : MonoBehaviour
         {
             if (settingsPanel.IsOpen)
             {
+                SoundManager.Instance.soundController.RequestSound(SoundID.ButtonClick);
                 settingsPanel.ClosePanel();
                 mainMenuPanel.OpenPanel();
             }
             else if (creditsPanel.IsOpen)
             {
+                SoundManager.Instance.soundController.RequestSound(SoundID.ButtonClick);
                 creditsPanel.ClosePanel();
                 mainMenuPanel.OpenPanel();
             }
@@ -42,6 +44,7 @@ public class MenuGUIManager : MonoBehaviour
 
     public void OnBackToMenuPressed()
     {
+        SoundManager.Instance.soundController.RequestSound(SoundID.ButtonClick);
         settingsPanel.ClosePanel();
         creditsPanel.ClosePanel();
         mainMenuPanel.OpenPanel();

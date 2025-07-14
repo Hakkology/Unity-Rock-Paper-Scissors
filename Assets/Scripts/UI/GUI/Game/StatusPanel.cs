@@ -34,6 +34,7 @@ public class StatusPanel : BasePanel
         {
             if (!sidewins && !teamwins)
             {
+                SoundManager.Instance.soundController.RequestSound(SoundID.GameOverFail);
                 statusText.text = "FAILED!";
                 leftSideImage.sprite = passiveStar;
                 leftTeamImage.sprite = passiveStar;
@@ -41,6 +42,7 @@ public class StatusPanel : BasePanel
             }
             else if (sidewins && !teamwins)
             {
+                SoundManager.Instance.soundController.RequestSound(SoundID.GameOverFail);
                 statusText.text = "NOT BAD!";
                 leftSideImage.sprite = activeStar;
                 leftTeamImage.sprite = passiveStar;
@@ -48,6 +50,7 @@ public class StatusPanel : BasePanel
             }
             else if (!sidewins && teamwins)
             {
+                SoundManager.Instance.soundController.RequestSound(SoundID.GameOverFail);
                 statusText.text = "NOT BAD!";
                 leftSideImage.sprite = passiveStar;
                 leftTeamImage.sprite = activeStar;
@@ -55,6 +58,7 @@ public class StatusPanel : BasePanel
             }
             else
             {
+                SoundManager.Instance.soundController.RequestSound(SoundID.GameOverSuccess);
                 statusText.text = "PERFECT!";
                 leftSideImage.sprite = activeStar;
                 leftTeamImage.sprite = activeStar;

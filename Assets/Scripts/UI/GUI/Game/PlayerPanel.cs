@@ -40,6 +40,7 @@ public class PlayerPanel : BasePanel
 
     private void SelectTeam(PTeam? choice)
     {
+        SoundManager.Instance.soundController.RequestSound(SoundID.ButtonClick);
         if (choice == null)
         {
             teamInfoText.text = $"Choose Team";
@@ -54,6 +55,7 @@ public class PlayerPanel : BasePanel
 
     private void SelectSide(EType? choice)
     {
+        SoundManager.Instance.soundController.RequestSound(SoundID.ButtonClick);
         if (choice == null)
         {
             teamInfoText.text = $"Choose Side";
@@ -74,11 +76,13 @@ public class PlayerPanel : BasePanel
 
     public void StartGame()
     {
+        SoundManager.Instance.soundController.RequestSound(SoundID.GameStart);
         StartCoroutine(GameManager.Instance.StartGame());
     }
 
     public void GoToMenu()
     {
+        SoundManager.Instance.soundController.RequestSound(SoundID.ButtonClick);
         SceneManager.LoadScene("Menu");
     }
 }

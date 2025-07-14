@@ -118,6 +118,15 @@ public class Arena : MonoBehaviour
             AllEntities.Add(newIe);
         }
 
+        SoundID soundId = newType switch
+        {
+            EType.Rock => SoundID.RockConvert,
+            EType.Paper => SoundID.PaperConvert,
+            EType.Scissors => SoundID.ScissorConvert,
+            _ => SoundID.RockConvert 
+        };
+        SoundManager.Instance.soundController.RequestSound(soundId);
+
         Destroy(victimEntity.gameObject);
 
         CheckAndDisableSideColliders();
