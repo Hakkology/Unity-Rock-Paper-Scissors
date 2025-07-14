@@ -32,6 +32,5 @@ public class MenuBasePanel : BasePanel
     {
         yield return new WaitForSeconds(0.3f);
         SceneManager.LoadScene("Arena");
-        
     }
 }
